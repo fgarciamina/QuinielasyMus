@@ -364,7 +364,7 @@ if($resultado[0]==0)
 			$nombrecom='Javier';
 			break;
 		case 3:
-			$nombrecom='FreminG';
+			$nombrecom='FerminG';
 			break;
 		case 4:
 			$nombrecom='Felipe';
@@ -376,7 +376,7 @@ if($resultado[0]==0)
 			$nombrecom='Alvaro';
 			break;
 		case 7:
-			$nombrecom='FreminA';
+			$nombrecom='FerminA';
 			break;
 		case 0:
 			$nombrecom='Michel';

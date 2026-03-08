@@ -110,6 +110,7 @@ $concursante=array('fermina','michel','julio','javier','ferming','felipe','anton
 for($i=0;$i<13;$i++)
 {
 	$sumaciertos[$i]=0;
+	$sumaciertosComun[$i]=0;
 	//$sumaciertosspq[$i]=0;
 }
 
@@ -173,6 +174,8 @@ for($i=0;$i<8;$i++)
 $olvidadizo=array(TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE);
 $menorpuntuacion=1000;
 $menorpuntuacionANT=1000;
+$sel2=$con->query("SELECT * FROM Pronosticoscom WHERE Jornada = ".$jornada);
+$pronosticocom=$sel2->fetch_assoc();
 for($i=0;$i<13;$i++)
 {
 	$nombre=$concursante[$i];
@@ -203,6 +206,7 @@ for($i=0;$i<13;$i++)
 		}
 		if($i<8) //Caso Quiniela Mina, para meter los puntos en función de los acertantes de ese partido
 		{
+			//Normal
 			if($resultado["R".$b]=='1' && $pronostico["P".$a."1"]=='checked')
 			{
 				$sumaciertosANT[$i]++;
@@ -224,6 +228,19 @@ for($i=0;$i<13;$i++)
 				$sumaciertos[$i]++;
 				$olvidadizo[$i]=FALSE;
 			}
+
+			//Puntos por la comunitaria
+			if(strtoupper($pronosticocom["Usuario"])==strtoupper($nombre))
+			{
+				if($resultado["R".$b]=='1' && $pronosticocom["P".$a."1C"]=='checked')
+					$sumaciertosComun[$i]++;
+				else if($resultado["R".$b]=='X' && $pronosticocom["P".$a."XC"]=='checked')
+					$sumaciertosComun[$i]++;
+				else if($resultado["R".$b]=='2' && $pronosticocom["P".$a."2C"]=='checked')
+					$sumaciertosComun[$i]++;
+			}
+			else
+				$sumaciertosComun[$i]=0;
 		}
 		else
 		{			
@@ -348,7 +365,7 @@ for($i=0;$i<13;$i++)
 				$marcadodoble[1]='2';
 			}
 			
-			if($casillasmarcadas==2)
+			if($casillasmarcadas==2 && $numerodedoble<7)
 			{
 				for($k=0;$k<16;$k++)
 				{
@@ -443,6 +460,9 @@ for($i=0;$i<13;$i++)
 					//$sumaciertos[$i]+=8/$NumeroAcertantes[14];
 					$sumaciertos[$i]++;
 				}
+				//Puntos por comunitaria
+				if(strtoupper($pronosticocom["Usuario"])==strtoupper($nombre) && ($golesr1==$pronosticocom["PF1C"]) && ($golesr2==$pronosticocom["PF2C"]))
+					$sumaciertosComun[$i]++;
 			}
 			
 			//Trinque
@@ -530,7 +550,7 @@ for($i=0;$i<13;$i++)
 		}
 		if($existe==0)
 		{
-			$con->query("INSERT INTO Resultados(Ano,Jornada,Usuario,Aciertos,Premios,Restas,Sumas,Loca) VALUES(".$AnoEnCurso.",".$jornada.",'".$nombre."',0,0,0,0,0)");
+			$con->query("INSERT INTO Resultados(Ano,Jornada,Usuario,Aciertos,Premios,Restas,Sumas,Loca,AciertosComun) VALUES(".$AnoEnCurso.",".$jornada.",'".$nombre."',0,0,0,0,0,0)");
 		}
 		$con->query("UPDATE Resultados SET `Premios`=".$trinque." WHERE Ano = ".$AnoEnCurso." AND Jornada = ".$jornada." AND Usuario ='".$nombre."'");
 
@@ -675,7 +695,7 @@ for($i=0;$i<13;$i++)
 		}
 		$con->query("UPDATE Resultados SET `Loca`=".$trinque." WHERE Ano = ".$AnoEnCurso." AND Jornada = ".$jornada." AND Usuario ='".$elcomun."'");
 	}
-	$con->query("UPDATE Resultados SET `Aciertos`=".$sumaciertos[$i]." WHERE Ano = ".$AnoEnCurso." AND Jornada = ".$jornada." AND Usuario ='".$nombre."'");
+	$con->query("UPDATE Resultados SET `Aciertos`=".$sumaciertos[$i].", `AciertosComun`=".$sumaciertosComun[$i]." WHERE Ano = ".$AnoEnCurso." AND Jornada = ".$jornada." AND Usuario ='".$nombre."'");
 	
 	//Los aciertos al estilo antiguo, solo para Quiniela Mina
 	if($i<8)

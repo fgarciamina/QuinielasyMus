@@ -84,6 +84,7 @@ for ($i=0;$i<$n;$i++)
 	$sumapastaordin=0;
 	$sumapastaloca=0;
 	$sumaaciertos=0;
+	$sumaaciertoscom=0;
 	$sumarestas=0;
 	$sumasumas=0;
 	for($iter=1;$iter<20;$iter++)
@@ -95,6 +96,7 @@ for ($i=0;$i<$n;$i++)
 		if($computasino[$casocomputa]==1)
 		{
 			$sumaaciertos+=$aciertos["Aciertos"];
+			$sumaaciertoscom+=$aciertos["AciertosComun"];
 			$ColorCasilla='white';
 		}
 		else
@@ -110,6 +112,8 @@ for ($i=0;$i<$n;$i++)
 		$sumasumas+=$aciertos["Sumas"];
 	}
 	$totalaciertospv[$i]=$sumaaciertos;
+	$totalcomun[$i]=$sumaaciertoscom;
+	$totalaciertos[$i]=$sumaaciertos+$sumaaciertoscom;
 	$totalpastaordinpv[$i]=$sumapastaordin;
 	$totalpastalocapv[$i]=$sumasumas+$sumapastaloca;
 	$totalpasta+=($totalpastaordinpv[$i]+$totalpastalocapv[$i]);
@@ -125,30 +129,38 @@ for ($i=0;$i<$n;$i++)
 	$puesto[$i][2]=$totalpastaordinpv[$i];
 	$puesto[$i][3]=$totalpastalocapv[$i];
 	$puesto[$i][4]=$totalpastaordinpv[$i]+$totalpastalocapv[$i];
+	$puesto[$i][5]=$totalcomun[$i];
+	$puesto[$i][6]=$totalaciertos[$i];
 	//Burbuja de puestos
 	if($i>0)
 	{
 		for($j=$i;$j>0;$j--)
 		{
-			if(($puesto[$j][1]>$puesto[$j-1][1]) || ($puesto[$j][1]==$puesto[$j-1][1] && $puesto[$j][4]>$puesto[$j-1][4]))
+			if(($puesto[$j][6]>$puesto[$j-1][6]) || ($puesto[$j][6]==$puesto[$j-1][6] && $puesto[$j][4]>$puesto[$j-1][4]))
 			{
 				$puestoaux[0]=$puesto[$j-1][0];
 				$puestoaux[1]=$puesto[$j-1][1];
 				$puestoaux[2]=$puesto[$j-1][2];
 				$puestoaux[3]=$puesto[$j-1][3];
 				$puestoaux[4]=$puesto[$j-1][4];
+				$puestoaux[5]=$puesto[$j-1][5];
+				$puestoaux[6]=$puesto[$j-1][6];
 				
 				$puesto[$j-1][0]=$puesto[$j][0];
 				$puesto[$j-1][1]=$puesto[$j][1];
 				$puesto[$j-1][2]=$puesto[$j][2];
 				$puesto[$j-1][3]=$puesto[$j][3];
 				$puesto[$j-1][4]=$puesto[$j][4];
+				$puesto[$j-1][5]=$puesto[$j][5];
+				$puesto[$j-1][6]=$puesto[$j][6];
 				
 				$puesto[$j][0]=$puestoaux[0];
 				$puesto[$j][1]=$puestoaux[1];
 				$puesto[$j][2]=$puestoaux[2];
 				$puesto[$j][3]=$puestoaux[3];
 				$puesto[$j][4]=$puestoaux[4];
+				$puesto[$j][5]=$puestoaux[5];
+				$puesto[$j][6]=$puestoaux[6];
 			}
 		}
 	}
@@ -175,32 +187,45 @@ else
 	}
 }
 
-echo '<table style="font-family:arial" border="1">';
-$str = '<tr style="background:gray;color:orange;"><th colspan="6">Campeonato de invierno</th></tr>';
-echo ($str);
-$str = '<tr style="background:gray;color:orange;"><th rowspan="2">Puesto</th><th rowspan="2">Participante</th><th rowspan="2">Puntos</th><th colspan="3">Trinque</th>';
-echo ($str);
 if($n==4)
-	$str='<tr style="background:gray;color:orange;"><th>Ordin.</th><th>Por Loca</th><th>SUMA</th></tr>';
-else
-	$str='<tr style="background:gray;color:orange;"><th>Ordin.</th><th>Por Común</th><th>SUMA</th></tr>';
-echo ($str);
-$str = '<tr><td style="background:gray;color:blue;font-weight:bold">Primer Clasificado</td><td style="color:blue">'.$puesto[0][0].'</td><td style="color:blue">'.$puesto[0][1].'</td><td style="color:blue">'.$puesto[0][2].'</td><td style="color:blue">'.$puesto[0][3].'</td><td style="color:blue">'.$puesto[0][4].'</td></tr>
-		<tr><td style="background:gray;color:orange;font-weight:bold">Segundo Clasificado</td><td>'.$puesto[1][0].'</td><td>'.$puesto[1][1].'</td><td>'.$puesto[1][2].'</td><td>'.$puesto[1][3].'</td><td>'.$puesto[1][4].'</td></tr>
-		<tr><td style="background:gray;color:orange;font-weight:bold">Tercer Clasificado</td><td>'.$puesto[2][0].'</td><td>'.$puesto[2][1].'</td><td>'.$puesto[2][2].'</td><td>'.$puesto[2][3].'</td><td>'.$puesto[2][4].'</td></tr>';
-echo ($str);
-if($n==8)
 {
-	$str = '<tr><td style="background:gray;color:orange;font-weight:bold">Cuarto Clasificado</td><td>'.$puesto[3][0].'</td><td>'.$puesto[3][1].'</td><td>'.$puesto[3][2].'</td><td>'.$puesto[3][3].'</td><td>'.$puesto[3][4].'</td></tr>
-			<tr><td style="background:gray;color:orange;font-weight:bold">Quinto Clasificado</td><td>'.$puesto[4][0].'</td><td>'.$puesto[4][1].'</td><td>'.$puesto[4][2].'</td><td>'.$puesto[4][3].'</td><td>'.$puesto[4][4].'</td></tr>
-			<tr><td style="background:gray;color:orange;font-weight:bold">Sexto Clasificado</td><td>'.$puesto[5][0].'</td><td>'.$puesto[5][1].'</td><td>'.$puesto[5][2].'</td><td>'.$puesto[5][3].'</td><td>'.$puesto[5][4].'</td></tr>
-			<tr><td style="background:gray;color:orange;font-weight:bold">Séptimo Clasificado</td><td>'.$puesto[6][0].'</td><td>'.$puesto[6][1].'</td><td>'.$puesto[6][2].'</td><td>'.$puesto[6][3].'</td><td>'.$puesto[6][4].'</td></tr>
-			<tr><td style="background:gray;color:red;font-weight:bold">Farolillo Rojo</td><td style="color:red">'.$puesto[7][0].'</td><td style="color:red">'.$puesto[7][1].'</td><td style="color:red">'.$puesto[7][2].'</td><td style="color:red">'.$puesto[7][3].'</td><td style="color:red">'.$puesto[7][4].'</td></tr>';
+	echo '<table style="font-family:arial" border="1">';
+	$str = '<tr style="background:gray;color:orange;"><th colspan="6">Campeonato de invierno</th></tr>';
+	echo ($str);
+	$str = '<tr style="background:gray;color:orange;"><th rowspan="2">Puesto</th><th rowspan="2">Participante</th><th rowspan="2">Puntos</th><th colspan="3">Trinque</th>';
+	echo ($str);
+	$str='<tr style="background:gray;color:orange;"><th>Ordin.</th><th>Por Loca</th><th>SUMA</th></tr>';
 	echo ($str);
 }
 else
 {
-	$str = '<tr><td style="background:gray;color:red;font-weight:bold">Farolillo Rojo</td><td style="color:red">'.$puesto[3][0].'</td><td style="color:red">'.$puesto[3][1].'</td><td style="color:red">'.$puesto[3][2].'</td><td style="color:red">'.$puesto[3][3].'</td><td style="color:red">'.$puesto[3][4].'</td></tr>';
+	echo '<table style="font-family:arial" border="1">';
+	$str = '<tr style="background:gray;color:orange;"><th colspan="8">Campeonato de invierno</th></tr>';
+	echo ($str);
+	$str = '<tr style="background:gray;color:orange;"><th rowspan="2">Puesto</th><th rowspan="2">Participante</th><th rowspan="2">Puntos</th><th rowspan="2">Puntos Com</th><th rowspan="2">TOTAL</th><th colspan="3">Trinque</th>';
+	echo ($str);
+	$str='<tr style="background:gray;color:orange;"><th>Ordin.</th><th>Por Común</th><th>SUMA</th></tr>';
+	echo ($str);
+}
+
+if($n==8)
+{
+	$str = '<tr><td style="background:gray;color:blue;font-weight:bold">Primer Clasificado</td><td style="color:blue">'.$puesto[0][0].'</td><td style="color:blue">'.$puesto[0][1].'</td><td style="color:blue">'.$puesto[0][5].'</td><td style="color:blue">'.$puesto[0][6].'</td><td style="color:blue">'.$puesto[0][2].'</td><td style="color:blue">'.$puesto[0][3].'</td><td style="color:blue">'.$puesto[0][4].'</td></tr>
+			<tr><td style="background:gray;color:orange;font-weight:bold">Segundo Clasificado</td><td>'.$puesto[1][0].'</td><td>'.$puesto[1][1].'</td><td>'.$puesto[1][5].'</td><td>'.$puesto[1][6].'</td><td>'.$puesto[1][2].'</td><td>'.$puesto[1][3].'</td><td>'.$puesto[1][4].'</td></tr>
+			<tr><td style="background:gray;color:orange;font-weight:bold">Tercer Clasificado</td><td>'.$puesto[2][0].'</td><td>'.$puesto[2][1].'</td><td>'.$puesto[2][5].'</td><td>'.$puesto[2][6].'</td><td>'.$puesto[2][2].'</td><td>'.$puesto[2][3].'</td><td>'.$puesto[2][4].'</td></tr>
+			<tr><td style="background:gray;color:orange;font-weight:bold">Cuarto Clasificado</td><td>'.$puesto[3][0].'</td><td>'.$puesto[3][1].'</td><td>'.$puesto[3][5].'</td><td>'.$puesto[3][6].'</td><td>'.$puesto[3][2].'</td><td>'.$puesto[3][3].'</td><td>'.$puesto[3][4].'</td></tr>
+			<tr><td style="background:gray;color:orange;font-weight:bold">Quinto Clasificado</td><td>'.$puesto[4][0].'</td><td>'.$puesto[4][1].'</td><td>'.$puesto[4][5].'</td><td>'.$puesto[4][6].'</td><td>'.$puesto[4][2].'</td><td>'.$puesto[4][3].'</td><td>'.$puesto[4][4].'</td></tr>
+			<tr><td style="background:gray;color:orange;font-weight:bold">Sexto Clasificado</td><td>'.$puesto[5][0].'</td><td>'.$puesto[5][1].'</td><td>'.$puesto[5][5].'</td><td>'.$puesto[5][6].'</td><td>'.$puesto[5][2].'</td><td>'.$puesto[5][3].'</td><td>'.$puesto[5][4].'</td></tr>
+			<tr><td style="background:gray;color:orange;font-weight:bold">Séptimo Clasificado</td><td>'.$puesto[6][0].'</td><td>'.$puesto[6][1].'</td><td>'.$puesto[6][5].'</td><td>'.$puesto[6][6].'</td><td>'.$puesto[6][2].'</td><td>'.$puesto[6][3].'</td><td>'.$puesto[6][4].'</td></tr>
+			<tr><td style="background:gray;color:red;font-weight:bold">Farolillo Rojo</td><td style="color:red">'.$puesto[7][0].'</td><td style="color:red">'.$puesto[7][1].'</td><td style="color:red">'.$puesto[7][5].'</td><td style="color:red">'.$puesto[7][6].'</td><td style="color:red">'.$puesto[7][2].'</td><td style="color:red">'.$puesto[7][3].'</td><td style="color:red">'.$puesto[7][4].'</td></tr>';
+	echo ($str);
+}
+else
+{
+	$str = '<tr><td style="background:gray;color:blue;font-weight:bold">Primer Clasificado</td><td style="color:blue">'.$puesto[0][0].'</td><td style="color:blue">'.$puesto[0][1].'</td><td style="color:blue">'.$puesto[0][2].'</td><td style="color:blue">'.$puesto[0][3].'</td><td style="color:blue">'.$puesto[0][4].'</td></tr>
+			<tr><td style="background:gray;color:orange;font-weight:bold">Segundo Clasificado</td><td>'.$puesto[1][0].'</td><td>'.$puesto[1][1].'</td><td>'.$puesto[1][2].'</td><td>'.$puesto[1][3].'</td><td>'.$puesto[1][4].'</td></tr>
+			<tr><td style="background:gray;color:orange;font-weight:bold">Tercer Clasificado</td><td>'.$puesto[2][0].'</td><td>'.$puesto[2][1].'</td><td>'.$puesto[2][2].'</td><td>'.$puesto[2][3].'</td><td>'.$puesto[2][4].'</td></tr>
+			<tr><td style="background:gray;color:red;font-weight:bold">Farolillo Rojo</td><td style="color:red">'.$puesto[3][0].'</td><td style="color:red">'.$puesto[3][1].'</td><td style="color:red">'.$puesto[3][2].'</td><td style="color:red">'.$puesto[3][3].'</td><td style="color:red">'.$puesto[3][4].'</td></tr>';
 	echo ($str);
 }
 	
@@ -282,6 +307,7 @@ for ($i=0;$i<$n;$i++)
 	$sumapastaordin=0;
 	$sumapastaloca=0;
 	$sumaaciertos=0;
+	$sumaaciertoscom=0;
 	$sumarestas=0;
 	$sumasumas=0;
 	for($iter=1;$iter<20;$iter++)
@@ -291,30 +317,45 @@ for ($i=0;$i<$n;$i++)
 		$computasino = $sel->fetch_assoc();
 		$sel=$con->query("SELECT * FROM Resultados WHERE Ano='".$ano."' AND Usuario='".$usuario[$i]."' AND Jornada='".$jornadasv."'");
 		$aciertos = $sel->fetch_assoc();
-		if($computasino[$casocomputa]==1)
+		if(!is_null($aciertos))
 		{
-			$sumaaciertos+=$aciertos["Aciertos"];
-			$ColorCasilla='white';
+			if($computasino[$casocomputa]==1)
+			{
+				$sumaaciertos+=$aciertos["Aciertos"];
+				$sumaaciertoscom+=$aciertos["AciertosComun"];
+				$ColorCasilla='white';
+			}
+			else
+				$ColorCasilla='red';
+			if($aciertos["Aciertos"]=='')
+				$str='<td style="background:'.$ColorCasilla.'">0</td>';
+			else
+				$str='<td style="background:'.$ColorCasilla.'">'.$aciertos["Aciertos"].'</td>';
+			echo ($str);
+			$sumapastaordin+=$aciertos["Premios"];
+			$sumapastaloca+=$aciertos["Loca"];
+			$sumarestas+=$aciertos["Restas"];
+			$sumasumas+=$aciertos["Sumas"];
 		}
 		else
-			$ColorCasilla='red';
-		if($aciertos["Aciertos"]=='')
+		{
+			$ColorCasilla='white';
 			$str='<td style="background:'.$ColorCasilla.'">0</td>';
-		else
-			$str='<td style="background:'.$ColorCasilla.'">'.$aciertos["Aciertos"].'</td>';
-		echo ($str);
-		$sumapastaordin+=$aciertos["Premios"];
-		$sumapastaloca+=$aciertos["Loca"];
-		$sumarestas+=$aciertos["Restas"];
-		$sumasumas+=$aciertos["Sumas"];
+			echo ($str);
+		}
 	}
 	$totalaciertossv[$i]=$sumaaciertos;
+	$totalcomunsv[$i]=$sumaaciertoscom;
+	$totalsv[$i]=$sumaaciertos+$sumaaciertoscom;
 	$totalpastaordinsv[$i]=$sumapastaordin;
 	$totalpastalocasv[$i]=$sumasumas+$sumapastaloca;
 	$totalpasta+=($totalpastaordinsv[$i]+$totalpastalocasv[$i]);
 	$sel=$con->query("SELECT * FROM Dispuesto WHERE Ano='".$ano."' AND Participante='".$usuario[$i]."'");
 	$dispuesto = $sel->fetch_assoc();
-	$totaldispuesto[$i]=$sumarestas+$totaldispuestopv[$i]+$dispuesto["Cantidad"];
+	if(!is_null($dispuesto))
+		$totaldispuesto[$i]=$sumarestas+$totaldispuestopv[$i]+$dispuesto["Cantidad"];
+	else
+		$totaldispuesto[$i]=$sumarestas+$totaldispuestopv[$i];
 	$sumapasta=number_format ( $totalpastaordinsv[$i] , $decimals = 2 , $dec_point = ',' , $thousands_sep = '.' );
 	$sumarestas=number_format ( $sumarestas , $decimals = 2 , $dec_point = ',' , $thousands_sep = '.' );
 	$sumasumas=number_format ( $sumasumas , $decimals = 2 , $dec_point = ',' , $thousands_sep = '.' );
@@ -326,14 +367,16 @@ for ($i=0;$i<$n;$i++)
 	$puesto[$i][2]=$totalpastaordinsv[$i]+$totalpastaordinpv[$i];
 	$puesto[$i][3]=$totalpastalocasv[$i]+$totalpastalocapv[$i];
 	$puesto[$i][4]=$totalpastaordinsv[$i]+$totalpastalocasv[$i]+$totalpastaordinpv[$i]+$totalpastalocapv[$i];
-	$puesto[$i][5]=$totaldispuesto[$i];
-	
+	$puesto[$i][5]=$totalcomun[$i]+$totalcomunsv[$i];
+	$puesto[$i][6]=$totalaciertos[$i]+$totalsv[$i];
+	$puesto[$i][7]=$totaldispuesto[$i];
+
 	//Burbuja de puestos
 	if($i>0)
 	{
 		for($j=$i;$j>0;$j--)
 		{
-			if(($puesto[$j][1]>$puesto[$j-1][1]) || ($puesto[$j][1]==$puesto[$j-1][1] && $puesto[$j][4]>$puesto[$j-1][4]))
+			if(($puesto[$j][6]>$puesto[$j-1][6]) || ($puesto[$j][6]==$puesto[$j-1][6] && $puesto[$j][4]>$puesto[$j-1][4]))
 			{
 				$puestoaux[0]=$puesto[$j-1][0];
 				$puestoaux[1]=$puesto[$j-1][1];
@@ -341,6 +384,8 @@ for ($i=0;$i<$n;$i++)
 				$puestoaux[3]=$puesto[$j-1][3];
 				$puestoaux[4]=$puesto[$j-1][4];
 				$puestoaux[5]=$puesto[$j-1][5];
+				$puestoaux[6]=$puesto[$j-1][6];
+				$puestoaux[7]=$puesto[$j-1][7];
 				
 				$puesto[$j-1][0]=$puesto[$j][0];
 				$puesto[$j-1][1]=$puesto[$j][1];
@@ -348,6 +393,8 @@ for ($i=0;$i<$n;$i++)
 				$puesto[$j-1][3]=$puesto[$j][3];
 				$puesto[$j-1][4]=$puesto[$j][4];
 				$puesto[$j-1][5]=$puesto[$j][5];
+				$puesto[$j-1][6]=$puesto[$j][6];
+				$puesto[$j-1][7]=$puesto[$j][7];
 				
 				$puesto[$j][0]=$puestoaux[0];
 				$puesto[$j][1]=$puestoaux[1];
@@ -355,13 +402,46 @@ for ($i=0;$i<$n;$i++)
 				$puesto[$j][3]=$puestoaux[3];
 				$puesto[$j][4]=$puestoaux[4];
 				$puesto[$j][5]=$puestoaux[5];
+				$puesto[$j][6]=$puestoaux[6];
+				$puesto[$j][7]=$puestoaux[7];
 			}
 		}
 	}
+
+/*
+//provisional  Sirve para ver los aciertos de las comunes
+	$sel=$con->query("SELECT * FROM Pronosticoscom WHERE Usuario='".$usuario[$i]."'");
+	while($auxsel = $sel->fetch_assoc())
+	{
+		$sumacomun=0;
+		$sel2=$con->query("SELECT * FROM escrutinio WHERE Jornada=".$auxsel["Jornada"]);
+		$proncom=$sel2->fetch_assoc();
+		if(($auxsel["P11C"]=='checked' && $proncom["R1"]=='1') || ($auxsel["P1XC"]=='checked' && $proncom["R1"]=='X') || ($auxsel["P12C"]=='checked' && $proncom["R1"]=='2')) $sumacomun++;
+		if(($auxsel["P21C"]=='checked' && $proncom["R2"]=='1') || ($auxsel["P2XC"]=='checked' && $proncom["R2"]=='X') || ($auxsel["P22C"]=='checked' && $proncom["R2"]=='2')) $sumacomun++;
+		if(($auxsel["P31C"]=='checked' && $proncom["R3"]=='1') || ($auxsel["P3XC"]=='checked' && $proncom["R3"]=='X') || ($auxsel["P32C"]=='checked' && $proncom["R3"]=='2')) $sumacomun++;
+		if(($auxsel["P41C"]=='checked' && $proncom["R4"]=='1') || ($auxsel["P4XC"]=='checked' && $proncom["R4"]=='X') || ($auxsel["P42C"]=='checked' && $proncom["R4"]=='2')) $sumacomun++;
+		if(($auxsel["P51C"]=='checked' && $proncom["R5"]=='1') || ($auxsel["P5XC"]=='checked' && $proncom["R5"]=='X') || ($auxsel["P52C"]=='checked' && $proncom["R5"]=='2')) $sumacomun++;
+		if(($auxsel["P61C"]=='checked' && $proncom["R6"]=='1') || ($auxsel["P6XC"]=='checked' && $proncom["R6"]=='X') || ($auxsel["P62C"]=='checked' && $proncom["R6"]=='2')) $sumacomun++;
+		if(($auxsel["P71C"]=='checked' && $proncom["R7"]=='1') || ($auxsel["P7XC"]=='checked' && $proncom["R7"]=='X') || ($auxsel["P72C"]=='checked' && $proncom["R7"]=='2')) $sumacomun++;
+		if(($auxsel["P81C"]=='checked' && $proncom["R8"]=='1') || ($auxsel["P8XC"]=='checked' && $proncom["R8"]=='X') || ($auxsel["P82C"]=='checked' && $proncom["R8"]=='2')) $sumacomun++;
+		if(($auxsel["P91C"]=='checked' && $proncom["R9"]=='1') || ($auxsel["P9XC"]=='checked' && $proncom["R9"]=='X') || ($auxsel["P92C"]=='checked' && $proncom["R9"]=='2')) $sumacomun++;
+		if(($auxsel["PA1C"]=='checked' && $proncom["R10"]=='1') || ($auxsel["PAXC"]=='checked' && $proncom["R10"]=='X') || ($auxsel["PA2C"]=='checked' && $proncom["R10"]=='2')) $sumacomun++;
+		if(($auxsel["PB1C"]=='checked' && $proncom["R11"]=='1') || ($auxsel["PBXC"]=='checked' && $proncom["R11"]=='X') || ($auxsel["PB2C"]=='checked' && $proncom["R11"]=='2')) $sumacomun++;
+		if(($auxsel["PC1C"]=='checked' && $proncom["R12"]=='1') || ($auxsel["PCXC"]=='checked' && $proncom["R12"]=='X') || ($auxsel["PC2C"]=='checked' && $proncom["R12"]=='2')) $sumacomun++;
+		if(($auxsel["PD1C"]=='checked' && $proncom["R13"]=='1') || ($auxsel["PDXC"]=='checked' && $proncom["R13"]=='X') || ($auxsel["PD2C"]=='checked' && $proncom["R13"]=='2')) $sumacomun++;
+		if(($auxsel["PE1C"]=='checked' && $proncom["R14"]=='1') || ($auxsel["PEXC"]=='checked' && $proncom["R14"]=='X') || ($auxsel["PE2C"]=='checked' && $proncom["R14"]=='2')) $sumacomun++;
+
+		if($auxsel["PF1C"]==$proncom["R15_1"] && $auxsel["PF2C"]==$proncom["R15_2"]) $sumacomun++;
+
+		$con->query("UPDATE Resultados SET AciertosComun = ".$sumacomun." WHERE Ano=2025 AND Jornada = ".$auxsel["Jornada"]." AND Usuario = '".$usuario[$i]."'");
+	}
+
+//fin provisional
+*/
 }
 $str='</table></br >';
 echo ($str);
-
+/*
 if($n==4)
 {
 	for($i=0;$i<4;$i++)
@@ -369,7 +449,7 @@ if($n==4)
 		$auxpuesto[$i][2]=number_format ( $puesto[$i][2] , $decimals = 2 , $dec_point = ',' , $thousands_sep = '.' );
 		$auxpuesto[$i][3]=number_format ( $puesto[$i][3] , $decimals = 2 , $dec_point = ',' , $thousands_sep = '.' );
 		$auxpuesto[$i][4]=number_format ( $puesto[$i][4] , $decimals = 2 , $dec_point = ',' , $thousands_sep = '.' );
-		$auxpuesto[$i][5]=number_format ( $puesto[$i][5] , $decimals = 2 , $dec_point = ',' , $thousands_sep = '.' );
+		$auxpuesto[$i][5]=number_format ( $puesto[$i][7] , $decimals = 2 , $dec_point = ',' , $thousands_sep = '.' );
 	}
 }
 else
@@ -379,36 +459,49 @@ else
 		$auxpuesto[$i][2]=number_format ( $puesto[$i][2] , $decimals = 2 , $dec_point = ',' , $thousands_sep = '.' );
 		$auxpuesto[$i][3]=number_format ( $puesto[$i][3] , $decimals = 2 , $dec_point = ',' , $thousands_sep = '.' );
 		$auxpuesto[$i][4]=number_format ( $puesto[$i][4] , $decimals = 2 , $dec_point = ',' , $thousands_sep = '.' );
-		$auxpuesto[$i][5]=number_format ( $puesto[$i][5] , $decimals = 2 , $dec_point = ',' , $thousands_sep = '.' );
+		$auxpuesto[$i][5]=number_format ( $puesto[$i][7] , $decimals = 2 , $dec_point = ',' , $thousands_sep = '.' );
 	}
 }
-
-echo '<table style="font-family:arial" border="1">';
-$str = '<tr style="background:gray;color:orange;"><th colspan="6">Campeonato absoluto</th></tr>';
-echo ($str);
-$str = '<tr style="background:gray;color:orange;"><th rowspan="2">Puesto</th><th rowspan="2">Participante</th><th rowspan="2">Puntos</th><th colspan="3">Trinque</th>';
-echo ($str);
+*/
 if($n==4)
-	$str='<tr style="background:gray;color:orange;"><th>Ordin.</th><th>Por Loca</th><th>SUMA</th></tr>';
-else
-	$str='<tr style="background:gray;color:orange;"><th>Ordin.</th><th>Por Común</th><th>SUMA</th></tr>';
-echo ($str);
-$str = '<tr><td style="background:gray;color:blue;font-weight:bold">Primer Clasificado</td><td style="color:blue">'.$puesto[0][0].'</td><td style="color:blue">'.$puesto[0][1].'</td><td style="color:blue">'.$auxpuesto[0][2].'</td><td style="color:blue">'.$auxpuesto[0][3].'</td><td style="color:blue">'.$auxpuesto[0][4].'</td></tr>
-		<tr><td style="background:gray;color:orange;font-weight:bold">Segundo Clasificado</td><td>'.$puesto[1][0].'</td><td>'.$puesto[1][1].'</td><td>'.$auxpuesto[1][2].'</td><td>'.$auxpuesto[1][3].'</td><td>'.$auxpuesto[1][4].'</td></tr>
-		<tr><td style="background:gray;color:orange;font-weight:bold">Tercer Clasificado</td><td>'.$puesto[2][0].'</td><td>'.$puesto[2][1].'</td><td>'.$auxpuesto[2][2].'</td><td>'.$auxpuesto[2][3].'</td><td>'.$auxpuesto[2][4].'</td></tr>';
-echo ($str);
-if($n==8)
 {
-	$str = '<tr><td style="background:gray;color:orange;font-weight:bold">Cuarto Clasificado</td><td>'.$puesto[3][0].'</td><td>'.$puesto[3][1].'</td><td>'.$auxpuesto[3][2].'</td><td>'.$auxpuesto[3][3].'</td><td>'.$auxpuesto[3][4].'</td></tr>
-			<tr><td style="background:gray;color:orange;font-weight:bold">Quinto Clasificado</td><td>'.$puesto[4][0].'</td><td>'.$puesto[4][1].'</td><td>'.$auxpuesto[4][2].'</td><td>'.$auxpuesto[4][3].'</td><td>'.$auxpuesto[4][4].'</td></tr>
-			<tr><td style="background:gray;color:orange;font-weight:bold">Sexto Clasificado</td><td>'.$puesto[5][0].'</td><td>'.$puesto[5][1].'</td><td>'.$auxpuesto[5][2].'</td><td>'.$auxpuesto[5][3].'</td><td>'.$auxpuesto[5][4].'</td></tr>
-			<tr><td style="background:gray;color:orange;font-weight:bold">Séptimo Clasificado</td><td>'.$puesto[6][0].'</td><td>'.$puesto[6][1].'</td><td>'.$auxpuesto[6][2].'</td><td>'.$auxpuesto[6][3].'</td><td>'.$auxpuesto[6][4].'</td></tr>
-			<tr><td style="background:gray;color:red;font-weight:bold">Farolillo Rojo</td><td style="color:red">'.$puesto[7][0].'</td><td style="color:red">'.$puesto[7][1].'</td><td style="color:red">'.$auxpuesto[7][2].'</td><td style="color:red">'.$auxpuesto[7][3].'</td><td style="color:red">'.$auxpuesto[7][4].'</td></tr>';
+	echo '<table style="font-family:arial" border="1">';
+	$str = '<tr style="background:gray;color:orange;"><th colspan="6">Campeonato de invierno</th></tr>';
+	echo ($str);
+	$str = '<tr style="background:gray;color:orange;"><th rowspan="2">Puesto</th><th rowspan="2">Participante</th><th rowspan="2">Puntos</th><th colspan="3">Trinque</th>';
+	echo ($str);
+	$str='<tr style="background:gray;color:orange;"><th>Ordin.</th><th>Por Loca</th><th>SUMA</th></tr>';
 	echo ($str);
 }
 else
 {
-	$str = '<tr><td style="background:gray;color:red;font-weight:bold">Farolillo Rojo</td><td style="color:red">'.$puesto[3][0].'</td><td style="color:red">'.$puesto[3][1].'</td><td style="color:red">'.$auxpuesto[3][2].'</td><td style="color:red">'.$auxpuesto[3][3].'</td><td style="color:red">'.$auxpuesto[3][4].'</td></tr>';
+	echo '<table style="font-family:arial" border="1">';
+	$str = '<tr style="background:gray;color:orange;"><th colspan="8">Campeonato de invierno</th></tr>';
+	echo ($str);
+	$str = '<tr style="background:gray;color:orange;"><th rowspan="2">Puesto</th><th rowspan="2">Participante</th><th rowspan="2">Puntos</th><th rowspan="2">Puntos Com</th><th rowspan="2">TOTAL</th><th colspan="3">Trinque</th>';
+	echo ($str);
+	$str='<tr style="background:gray;color:orange;"><th>Ordin.</th><th>Por Común</th><th>SUMA</th></tr>';
+	echo ($str);
+}
+
+if($n==8)
+{
+	$str = '<tr><td style="background:gray;color:blue;font-weight:bold">Primer Clasificado</td><td style="color:blue">'.$puesto[0][0].'</td><td style="color:blue">'.$puesto[0][1].'</td><td style="color:blue">'.$puesto[0][5].'</td><td style="color:blue">'.$puesto[0][6].'</td><td style="color:blue">'.$puesto[0][2].'</td><td style="color:blue">'.$puesto[0][3].'</td><td style="color:blue">'.$puesto[0][4].'</td></tr>
+			<tr><td style="background:gray;color:orange;font-weight:bold">Segundo Clasificado</td><td>'.$puesto[1][0].'</td><td>'.$puesto[1][1].'</td><td>'.$puesto[1][5].'</td><td>'.$puesto[1][6].'</td><td>'.$puesto[1][2].'</td><td>'.$puesto[1][3].'</td><td>'.$puesto[1][4].'</td></tr>
+			<tr><td style="background:gray;color:orange;font-weight:bold">Tercer Clasificado</td><td>'.$puesto[2][0].'</td><td>'.$puesto[2][1].'</td><td>'.$puesto[2][5].'</td><td>'.$puesto[2][6].'</td><td>'.$puesto[2][2].'</td><td>'.$puesto[2][3].'</td><td>'.$puesto[2][4].'</td></tr>
+			<tr><td style="background:gray;color:orange;font-weight:bold">Cuarto Clasificado</td><td>'.$puesto[3][0].'</td><td>'.$puesto[3][1].'</td><td>'.$puesto[3][5].'</td><td>'.$puesto[3][6].'</td><td>'.$puesto[3][2].'</td><td>'.$puesto[3][3].'</td><td>'.$puesto[3][4].'</td></tr>
+			<tr><td style="background:gray;color:orange;font-weight:bold">Quinto Clasificado</td><td>'.$puesto[4][0].'</td><td>'.$puesto[4][1].'</td><td>'.$puesto[4][5].'</td><td>'.$puesto[4][6].'</td><td>'.$puesto[4][2].'</td><td>'.$puesto[4][3].'</td><td>'.$puesto[4][4].'</td></tr>
+			<tr><td style="background:gray;color:orange;font-weight:bold">Sexto Clasificado</td><td>'.$puesto[5][0].'</td><td>'.$puesto[5][1].'</td><td>'.$puesto[5][5].'</td><td>'.$puesto[5][6].'</td><td>'.$puesto[5][2].'</td><td>'.$puesto[5][3].'</td><td>'.$puesto[5][4].'</td></tr>
+			<tr><td style="background:gray;color:orange;font-weight:bold">Séptimo Clasificado</td><td>'.$puesto[6][0].'</td><td>'.$puesto[6][1].'</td><td>'.$puesto[6][5].'</td><td>'.$puesto[6][6].'</td><td>'.$puesto[6][2].'</td><td>'.$puesto[6][3].'</td><td>'.$puesto[6][4].'</td></tr>
+			<tr><td style="background:gray;color:red;font-weight:bold">Farolillo Rojo</td><td style="color:red">'.$puesto[7][0].'</td><td style="color:red">'.$puesto[7][1].'</td><td style="color:red">'.$puesto[7][5].'</td><td style="color:red">'.$puesto[7][6].'</td><td style="color:red">'.$puesto[7][2].'</td><td style="color:red">'.$puesto[7][3].'</td><td style="color:red">'.$puesto[7][4].'</td></tr>';
+	echo ($str);
+}
+else
+{
+	$str = '<tr><td style="background:gray;color:blue;font-weight:bold">Primer Clasificado</td><td style="color:blue">'.$puesto[0][0].'</td><td style="color:blue">'.$puesto[0][1].'</td><td style="color:blue">'.$puesto[0][2].'</td><td style="color:blue">'.$puesto[0][3].'</td><td style="color:blue">'.$puesto[0][4].'</td></tr>
+			<tr><td style="background:gray;color:orange;font-weight:bold">Segundo Clasificado</td><td>'.$puesto[1][0].'</td><td>'.$puesto[1][1].'</td><td>'.$puesto[1][2].'</td><td>'.$puesto[1][3].'</td><td>'.$puesto[1][4].'</td></tr>
+			<tr><td style="background:gray;color:orange;font-weight:bold">Tercer Clasificado</td><td>'.$puesto[2][0].'</td><td>'.$puesto[2][1].'</td><td>'.$puesto[2][2].'</td><td>'.$puesto[2][3].'</td><td>'.$puesto[2][4].'</td></tr>
+			<tr><td style="background:gray;color:red;font-weight:bold">Farolillo Rojo</td><td style="color:red">'.$puesto[3][0].'</td><td style="color:red">'.$puesto[3][1].'</td><td style="color:red">'.$puesto[3][2].'</td><td style="color:red">'.$puesto[3][3].'</td><td style="color:red">'.$puesto[3][4].'</td></tr>';
 	echo ($str);
 }
 	
@@ -499,11 +592,11 @@ for($i=1;$i<$n;$i++)
 
 for($i=0;$i<$n;$i++)
 {
-	$pordisponer=$puesto[$i][4]-$puesto[$i][5];
+	$pordisponer=$puesto[$i][4]-$puesto[$i][7];
 	if($pordisponer<0.01)
 		$pordisponer=0; //Para que no salga -0.0, que a veces sale.
 	$auxpremios=number_format ( $puesto[$i][4] , $decimals = 2 , $dec_point = ',' , $thousands_sep = '.' );
-	$auxdispuesto=number_format ( $puesto[$i][5] , $decimals = 2 , $dec_point = ',' , $thousands_sep = '.' );
+	$auxdispuesto=number_format ( $puesto[$i][7] , $decimals = 2 , $dec_point = ',' , $thousands_sep = '.' );
 	$auxpordisponer=number_format ( $pordisponer , $decimals = 2 , $dec_point = ',' , $thousands_sep = '.' );
 	$str = '<tr><td style="background:gray;color:orange;font-weight:bold">'.$puesto[$i][0].'</td>
 			<td>'.$auxpremios.'</td>
