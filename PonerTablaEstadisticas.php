@@ -414,7 +414,7 @@ for ($i=0;$i<$n;$i++)
 	while($auxsel = $sel->fetch_assoc())
 	{
 		$sumacomun=0;
-		$sel2=$con->query("SELECT * FROM escrutinio WHERE Jornada=".$auxsel["Jornada"]);
+		$sel2=$con->query("SELECT * FROM Escrutinio WHERE Jornada=".$auxsel["Jornada"]);
 		$proncom=$sel2->fetch_assoc();
 		if(($auxsel["P11C"]=='checked' && $proncom["R1"]=='1') || ($auxsel["P1XC"]=='checked' && $proncom["R1"]=='X') || ($auxsel["P12C"]=='checked' && $proncom["R1"]=='2')) $sumacomun++;
 		if(($auxsel["P21C"]=='checked' && $proncom["R2"]=='1') || ($auxsel["P2XC"]=='checked' && $proncom["R2"]=='X') || ($auxsel["P22C"]=='checked' && $proncom["R2"]=='2')) $sumacomun++;
@@ -435,7 +435,6 @@ for ($i=0;$i<$n;$i++)
 
 		$con->query("UPDATE Resultados SET AciertosComun = ".$sumacomun." WHERE Ano=2025 AND Jornada = ".$auxsel["Jornada"]." AND Usuario = '".$usuario[$i]."'");
 	}
-
 //fin provisional
 */
 }
@@ -466,7 +465,7 @@ else
 if($n==4)
 {
 	echo '<table style="font-family:arial" border="1">';
-	$str = '<tr style="background:gray;color:orange;"><th colspan="6">Campeonato de invierno</th></tr>';
+	$str = '<tr style="background:gray;color:orange;"><th colspan="6">Campeonato absoluto</th></tr>';
 	echo ($str);
 	$str = '<tr style="background:gray;color:orange;"><th rowspan="2">Puesto</th><th rowspan="2">Participante</th><th rowspan="2">Puntos</th><th colspan="3">Trinque</th>';
 	echo ($str);
@@ -476,7 +475,7 @@ if($n==4)
 else
 {
 	echo '<table style="font-family:arial" border="1">';
-	$str = '<tr style="background:gray;color:orange;"><th colspan="8">Campeonato de invierno</th></tr>';
+	$str = '<tr style="background:gray;color:orange;"><th colspan="8">Campeonato absoluto</th></tr>';
 	echo ($str);
 	$str = '<tr style="background:gray;color:orange;"><th rowspan="2">Puesto</th><th rowspan="2">Participante</th><th rowspan="2">Puntos</th><th rowspan="2">Puntos Com</th><th rowspan="2">TOTAL</th><th colspan="3">Trinque</th>';
 	echo ($str);
