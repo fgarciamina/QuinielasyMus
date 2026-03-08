@@ -1,0 +1,128 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<title>
+QUINIELAS Y MUS
+</title>
+<link rel="stylesheet" type="text/css" href="tabs.css" />
+
+<script type="text/javascript">
+function loadXMLDoc(url,cfunc)
+{
+	if (window.XMLHttpRequest)
+ 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
+ 		 xmlhttp=new XMLHttpRequest();
+  	}
+	else
+  	{// code for IE6, IE5
+  		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+ 	 }
+	xmlhttp.onreadystatechange=cfunc;
+	xmlhttp.open("GET",url,true);
+	xmlhttp.send();
+}
+
+function CogeUsuario()
+{
+	var a = window.location.toString();
+	a = a.substring(a.indexOf("=")+1);
+	
+	switch (a)
+	{
+		case "Alfonso":
+			var usu="Alfonso Martínez Sánchez-Sicilia";
+			break;
+		case "Caixero":
+			var usu="Fernando Sánchez Rodríguez";
+			break;
+		case "Fermin":
+			var usu="Fermín García-Mina Cabredo";
+			break;
+		case "Manolin":
+			var usu="Manuel José Ibáñezez Macías";
+			break;
+		case "FerminA":
+			var usu="Fermín Aldaz García-Mina";
+			break;
+		case "Michel":
+			var usu="Michel Aldaz García-Mina";
+			break;
+		case "Julio":
+			var usu="Julio García-Mina Cabredo";
+			break;
+		case "Javier":
+			var usu="Javier Marco García-Mina";
+			break;
+		case "FerminG":
+			var usu="Fermín García-Mina Cabredo";
+			break;
+		case "Felipe":
+			var usu="Felipe García-Mina Cabredo";
+			break;
+		case "Antonio":
+			var usu="Antonio Luna García-Mina";
+			break;
+		case "Alvaro":
+			var usu="Álvaro Luna García-Mina";
+			break;
+		default:
+			var usu="Nadie";
+			break;
+	}
+	document.getElementById("Pronostico").innerHTML="Boleto de "+usu;
+}
+
+function CambiaPagina(str)
+{
+	var a = window.location.toString();
+	a = a.substring(a.indexOf("=")+1);
+	
+	location.href = str+".htm?pronosticante="+a;
+}
+
+function CambioClave(str1,str2)
+{
+	var a = window.location.toString();
+	a = a.substring(a.indexOf("=")+1);
+	
+	loadXMLDoc("CambiarClave.php?q="+a+"&p="+str1+"&r="+str2+"&randNum="+new Date().getTime(),function()
+  	{
+  		if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    	{
+    		var respuesta=xmlhttp.responseText;
+			if(respuesta==1)
+				alert("Clave cambiada correctamente");
+			else
+				alert("La clave NO se ha cambiado");
+    	}
+  	});
+}
+
+</script>
+</head>
+<body onload="CogeUsuario();">
+<img src="LogoNombre.png" alt="Quinielas y Mus"/>
+<br />
+<ul id="tabs" style="cursor:pointer;">
+	<li><a id="Pronostico" onclick="CambiaPagina(id)"></a></li>
+	<li><a id="TodosLosBoletos" onclick="CambiaPagina(id)">Todos los boletos</a></li>
+	<li><a id="Estadisticas" onclick="CambiaPagina(id)">Estadísticas e Histórico</a>
+	<li><a id="Perfil" style="background:black">Perfil</a></li>
+		<ul>
+			<li style="margin-left:100px;margin-top:50px">
+				<img src="campo.jpg" alt="Quinielas y Mus" height="300" width="300" />
+			</li>
+			<li style="margin-left:100px;margin-top:65px">
+				<table border="1" style="font-family:arial">
+					<tr><th style="background:gray;color:orange">Cambio de clave</th></tr>
+					<tr><td>Introduce tu calve antigua, tu clave nueva y pulsa el botón</td></tr>
+					<tr><td><br /><p>Clave antigua:</p><input type="text" id="claveant" style="width:250px" size="32" maxlength="32"></input></td></tr>
+					<tr><td><br /><p>Clave nueva:</p><input type="text" id="clavenueva" style="width:250px" size="32" maxlength="32"></input></td></tr>
+					<tr><td><br /><input type="button" style="color:orange" onclick="CambioClave(claveant.value,clavenueva.value)" value="CAMBIAR"></input>
+				</table>
+			</li>
+		</ul>
+	</li>		
+</ul>
+</body>
+</html>

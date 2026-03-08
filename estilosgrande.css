@@ -1,0 +1,171 @@
+/*****************************************************************************************
+*						Barra de cabecera
+******************************************************************************************/
+.Cabecera {
+	position:relative;
+	margin-left:1px;
+	margin-top:5px;
+	height:62px;
+	width:100%;
+}
+
+.LogoMRC {
+	position:absolute;
+	left:10px;
+	height:75px;
+	width:75px;
+}
+
+.CanvasBarra {
+	position:absolute;
+	top:5px;
+	left:100px;
+	height:62px;
+	width:95%;
+	background:#3663a7;
+}
+
+.Lema {
+	position:absolute;
+	left:280px;
+	top:50%;
+	transform: translate(0%, -105%);
+	vertical-align:middle;
+	width:50%;
+	color:#afaeae;
+	font-size:1vw;
+	font-weight:normal;
+	letter-spacing:1px;
+	font-family:Verdana;
+}	
+
+/*****************************************************************************************
+*						Pagina inicial, la de credenciales
+******************************************************************************************/
+#DivCredenciales {
+	position:relative;
+	top:50%;
+	left:50%;
+	width:30%;
+	height:50%;
+	transform: translate(-50%, 50%);
+	min-width:200px;
+	min-height:300px;
+}
+
+#CanvasCredenciales {
+	background:gray;
+	position:absolute;
+	left:0%;
+	top:0%;
+	width:100%;
+	height:100%;
+	min-width:200px;
+	min-height:300px;
+}
+
+#TRA_NomUsu {
+	position:absolute;
+	left:10%;
+	top:1%;
+	font-family:Verdana;
+	font-size:18px;
+	color:white;
+}
+
+.InTextoCreden {
+	position:absolute;
+	left:10%;
+	width:80%;
+	font-size:16px;
+	color:#3663a7;
+}
+
+#TRA_ContUsu {
+	position:absolute;
+	left:10%;
+	top:26%;
+	font-family:Verdana;
+	font-size:18px;
+	color:white;
+}
+
+#TRA_I_TeclaEntrar {
+	position:absolute;
+	top:52%;
+	left:50%;
+	transform: translate(-50%, 50%);
+	font-size:20px;
+	background:#3663a7;
+	border:none;
+	color:white;
+	cursor:pointer;
+}
+
+#TRA_I_OlvidaCont {
+	position:absolute;
+	left:10%;
+	top:80%;
+	max-width:80%;
+	height:50px;
+	white-space:normal;
+	font-size:18px;
+	text-align:center;
+	background:gray;
+	color:white;
+	border:none;
+	outline:none;
+	cursor:pointer;
+}
+
+/*****************************************************************************************
+*						PAGINA PRINCIPAL: gestiones.htm
+******************************************************************************************/
+.DivDeMenu {
+	position:absolute;
+	left:1%;
+	float:left;
+	list-style-type:none;
+}
+
+.DivDeMenu LI {
+	display:inline-block;
+	min-width:8em;
+	text-decoration:none;
+	font-family:Verdana;
+	font-size:1vw;
+	text-align:center;
+	background:silver;
+	color:#3663a7;
+	padding:0.25 1em 0.25em 1em;
+}
+
+.DivDeMenu A {
+	margin-left:5px;
+	margin-right:5px;
+}
+
+.DivDeMenu LI:hover {
+	background:blue;
+	color:white;
+	cursor: pointer;
+}
+
+.DivDeMenu LI:active {
+	background:#3663a7;
+	color:white;
+}
+
+@media screen and (min-width:750px) {
+	.DivDeMenuPequeno {
+		display:none;
+	}
+	.DivDeChichaPequena {
+		display:none;
+	}
+}
+
+#chicha {
+	float:left;
+	width:100%;
+}

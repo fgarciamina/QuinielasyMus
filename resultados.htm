@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<title>
+QUINIELAS Y MUS
+</title>
+<link rel="stylesheet" type="text/css" href="tabs.css" />
+<script type="text/javascript" language="JavaScript">
+function loadXMLDoc(url,cfunc)
+{
+	if (window.XMLHttpRequest)
+ 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
+ 		 xmlhttp=new XMLHttpRequest();
+  	}
+	else
+  	{// code for IE6, IE5
+  		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+ 	 }
+	xmlhttp.onreadystatechange=cfunc;
+	xmlhttp.open("GET",url,true);
+	xmlhttp.send();
+}
+
+function EnviaPasta(str1,str2,str3,str4,str5,str6)
+{
+	loadXMLDoc("PonLaPasta.php?o="+str1+"&p="+str2+"&q="+str3+"&r="+str4+"&s="+str5+"&t="+str6+"&randNum="+new Date().getTime(),function()
+  	{
+  		if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    		{
+    			alert ('O.K.');
+    		}
+  	});
+}
+
+function Resultados()
+{
+	loadXMLDoc("Resultados.php?randNum="+new Date().getTime(),function()
+  	{
+  		if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    	{
+    		var response = xmlhttp.responseText;
+			var update = new Array();
+			if(response.indexOf('|$|'!= -1))
+			{
+				update = response.split('|$|');
+				document.getElementById("TablaResultados").innerHTML=update[0];
+				document.getElementById("FormPasta").innerHTML=update[1];
+			}
+    	}
+  	});
+}
+
+function ActualizaResultados(str1,str2)
+{
+	loadXMLDoc("ActualizaResultados.php?q="+str1+"&p="+str2+"&randNum="+new Date().getTime(),function()
+  	{
+  		if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    	{
+			if(str2=="P1" || str2=="P2" || str2=="P3" || str2=="P4" || str2=="P5" || str2=="P6")
+			{
+				var numberFormat = new Intl.NumberFormat('es-ES');
+				var pastaformateada=numberFormat.format(xmlhttp.responseText);
+				document.getElementById(str2).value=pastaformateada;
+			}
+			else
+				document.getElementById(str2).value=xmlhttp.responseText;
+    	}
+  	});
+}
+
+function CambiaJornada()
+{
+	loadXMLDoc("CambiaLaJornada.php?randNum="+new Date().getTime(),function()
+  	{
+  		if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    		{
+				alert("La próxima jornada es la: "+xmlhttp.responseText);
+    		}
+  	});
+}
+</script>
+</head>
+<body onload="Resultados()">
+<img src="LogoNombre.png" alt="Quinielas y Mus"/>
+<br/>
+<div id="TablaResultados" style="position:absolute;width:550;height:500">Cargando: espera un momento</div>
+<div id="FormPasta" style="position:absolute;margin-left:600px;height:350px;width:300px"></div>
+<div style="position:absolute;margin-left:650px;margin-top:400px;height:30px;width:120px"><input type="submit" value="Cambia Jornada" onclick="CambiaJornada()"></input></div>
+</body>
+</html>

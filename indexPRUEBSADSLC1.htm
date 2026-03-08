@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+DSLC-1
+</title>
+<link rel="stylesheet" href="./estilosgrande.css">
+<link rel="stylesheet" media="screen and (max-width:750px)" href="./estilospeque.css">
+<link rel="shortcut icon" href="./mrcaudio.ico">
+<script type="text/javascript">
+function loadXMLDoc(url,cfunc)
+{
+	if (window.XMLHttpRequest)
+ 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
+ 		 xmlhttp=new XMLHttpRequest();
+  	}
+	else
+  	{// code for IE6, IE5
+  		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+ 	}
+	xmlhttp.onreadystatechange=cfunc;
+	xmlhttp.open("GET",url,true);
+	xmlhttp.send();
+}
+
+function ValidaUsuarioHTM(usuario, contrasena, idioma)
+{
+	loadXMLDoc("ValidaUsuario.php?p="+usuario+"&q="+contrasena+"&r="+idioma+"&randNum="+new Date().getTime(),function()
+  	{
+		if (xmlhttp.readyState==4 && xmlhttp.status==200)
+		{
+			var response=xmlhttp.responseText;
+			if(response == 0)
+			{
+				alert ("Usuario no registrado");
+				location.href = "index.htm";
+			}
+			else
+				location.href = "gestiones.htm";
+   		}
+ 	});
+}
+
+function VerificaTeclaEnterHTM(tecla, usuario, contrasena)
+{
+	var characterCode;
+
+	if(tecla && tecla.which) //Standard NN4
+		characterCode = tecla.which;
+	else	//Standard IE4+
+	{
+		tecla=event;
+		characterCode = tecla.keyCode;
+	}
+
+	if(characterCode==13)
+		ValidaUsuarioHTM(usuario, contrasena, idioma);
+}
+</script>
+</head>
+<body>
+	<div class="Cabecera">
+		<img class="LogoMRC" src="logoMRC.jpg" alt="MRC AUDIO"></img>
+		<canvas class="CanvasBarra"></canvas>
+		<h2 class="Lema">DIGITAL SOUND LEVEL CONTROLLER</h2>
+	</div>
+	<div id="DivCredenciales">
+		<canvas id="CanvasCredenciales"></canvas>
+		<form>
+			<p id="TRA_NomUsu">USUARIO:</p>
+			<input class="InTextoCreden" name="NomUsuEnter" type="text" maxlength="64" style="top:15%;"></input>
+			<p id="TRA_ContUsu" value="">CONTRASEÑA:</p>
+			<input class="InTextoCreden" name="ContUsuEnter" type="password" style="top:40%;" maxlength="64" onKeyPress="VerificaTeclaEnterHTM(event, NomUsuEnter.value, ContUsuEnter.value, SelecIdioma.value)"></input>
+			<input id="TRA_I_TeclaEntrar" type="button" value="ENTRAR" onclick="ValidaUsuarioHTM(NomUsuEnter.value, ContUsuEnter.value)"></input>
+			<input id="TRA_I_OlvidaCont" type="button" value="¿Ha olvidado su contraseña?"></input>
+		</form>
+	</div>
+</body>
+</html>
+
+
+	

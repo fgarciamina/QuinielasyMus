@@ -1,0 +1,156 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<title>
+QUINIELAS Y MUS
+</title>
+<link rel="stylesheet" type="text/css" href="tabs.css" />
+<script type="text/javascript">
+function loadXMLDoc(url,cfunc)
+{
+	if (window.XMLHttpRequest)
+ 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
+ 		 xmlhttp=new XMLHttpRequest();
+  	}
+	else
+  	{// code for IE6, IE5
+  		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+ 	 }
+	xmlhttp.onreadystatechange=cfunc;
+	xmlhttp.open("GET",url,true);
+	xmlhttp.send();
+}
+
+function CogeUsuario()
+{
+	var a = window.location.toString();
+	a = a.substring(a.indexOf("=")+1);
+	
+	switch (a)
+	{
+		case "Alfonso":
+			var usu="Alfonso Martínez Sánchez-Sicilia";
+			break;
+		case "Caixero":
+			var usu="Fernando Sánchez Rodríguez";
+			break;
+		case "Fermin":
+			var usu="Fermín García-Mina Cabredo";
+			break;
+		case "Manolin":
+			var usu="Manuel José Ibáñez Macías";
+			break;
+		case "FerminA":
+			var usu="Fermín Aldaz García-Mina";
+			break;
+		case "Michel":
+			var usu="Michel Aldaz García-Mina";
+			break;
+		case "Julio":
+			var usu="Julio García-Mina Cabredo";
+			break;
+		case "Javier":
+			var usu="Javier Marco García-Mina";
+			break;
+		case "FerminG":
+			var usu="Fermín García-Mina Cabredo";
+			break;
+		case "Felipe":
+			var usu="Felipe García-Mina Cabredo";
+			break;
+		case "Antonio":
+			var usu="Antonio Luna García-Mina";
+			break;
+		case "Alvaro":
+			var usu="Álvaro Luna García-Mina";
+			break;
+		default:
+			var usu="Nadie";
+			break;
+	}
+	document.getElementById("Pronostico").innerHTML="Boleto de "+usu;
+	PonTablaEstadistica("AnoEnCurso");
+}
+
+function CambiaPagina(str)
+{
+	var a = window.location.toString();
+	a = a.substring(a.indexOf("=")+1);
+	
+	location.href = str+".htm?pronosticante="+a;
+}
+
+function PonTablaEstadistica(str)
+{
+	var a = window.location.toString();
+	a = a.substring(a.indexOf("=")+1);
+	
+	document.getElementById("TablaEstadisticas").innerHTML="Cargando las tablas... espera un momento.";
+	if(str=="AnoEnCurso")
+		var Ano=0;
+	else
+	{
+		var Ano=document.getElementById("ElAno").selectedIndex;
+		Ano++;
+	}
+
+	loadXMLDoc("PonerTablaEstadisticas.php?p="+Ano+"&q="+a+"&randNum="+new Date().getTime(),function()
+  	{
+  		if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    	        {
+    		        var response = xmlhttp.responseText;
+			var update = new Array();
+			if(response.indexOf('|$|'!= -1))
+			{
+				update = response.split('|$|');
+				document.getElementById('ElAno').selectedIndex=update[0];
+				document.getElementById("TablaEstadisticas").innerHTML=update[1];
+			}
+    	       }
+  	});
+}
+</script>
+</head>
+<body onload="CogeUsuario();">
+<img src="LogoNombre.png" alt="Quinielas y Mus"/>
+<br />
+<ul id="tabs" style="cursor:pointer;">
+	<li><a id="Pronostico" onclick="CambiaPagina(id)"></a></li>
+	<li><a id="TodosLosBoletos" onclick="CambiaPagina(id)">Todos los boletos</a></li>
+	<li><a id="Estadisticas" style="background:black">Estadísticas e Histórico</a>
+		<ul>
+			<br />
+				<div style="font-family:arial">Liga a consultar:
+					<select id="ElAno" onchange="PonTablaEstadistica(id)">
+						<option>2011 - 2012</option>
+						<option>2012 - 2013</option>
+						<option>2013 - 2014</option>
+						<option>2014 - 2015</option>
+						<option>2015 - 2016</option>
+						<option>2016 - 2017</option>
+						<option>2017 - 2018</option>
+						<option>2018 - 2019</option>
+						<option>2019 - 2020</option>
+						<option>2020 - 2021</option>
+						<option>2021 - 2022</option>
+						<option>2022 - 2023</option>
+						<option>2023 - 2024</option>
+						<option>2024 - 2025</option>
+						<option>2025 - 2026</option>
+						<option>2026 - 2027</option>
+						<option>2027 - 2028</option>
+						<option>2028 - 2029</option>
+						<option>2029 - 2030</option>
+						<option>2030 - 2031</option>
+						<option>2031 - 2032</option>
+						<option>2032 - 2033</option>
+					</select>
+				</div>
+			<br />
+				<div id="TablaEstadisticas" style="width:100%">Cargando las tablas... espera un momento.</div>
+			<br />					
+		</ul>
+	<li><a id="Perfil" onclick="CambiaPagina(id)">Perfil</a></li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<title>
+QUINIELAS Y MUS
+</title>
+<script type="text/javascript">
+function CompruebaUsuario(str1,str2)
+{
+	if (window.XMLHttpRequest)
+	{// code for IE7+, Firefox, Chrome, Opera, Safari
+		xmlhttp=new XMLHttpRequest();
+	}
+	else
+	{// code for IE6, IE5
+		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	xmlhttp.onreadystatechange=function()
+	{
+		if (xmlhttp.readyState==4 && xmlhttp.status==200)
+		{
+			var retorno=xmlhttp.responseText;
+			if(retorno==0)
+				alert ("Usuario no registrado");
+			else if (retorno=="resultados")
+				location.href = "resultados.htm";
+			else
+				location.href = "Pronostico.htm?pronosticante="+retorno;
+   		}
+ 	}
+	xmlhttp.open("GET","CotejaUsuario.php?q="+str1+"&p="+str2,true);
+	xmlhttp.send();
+}
+</script>
+</head>
+<body>
+<img src="LogoNombre.png" alt="Quinielas y mus"/>
+<center style="position:relative;top:75px">
+<table style="border-style:solid;border-width:1px;border-color:orange">
+	<tr><th style="background-color:gray;color:orange; font-size:18pt;font-family:arial">Registro:</th></tr>
+	<tr style="text-align:center;font-family:arial"><td><span style="color:gray">Introduce Usuario, Contraseña y pulsa el botón 'ENTRAR'<span></td>
+	<tr style="text-align:center"><td>
+		<br>
+		<form style="font-family:arial">
+		<b style="color:gray">Usuario: </b><input type="text" name="usuario" size="32" maxlength="32" /><br /><br />
+		<b style="color:gray">Contraseña: </b><input type="password" name="pwd" size="32" maxlength="32" /><br /><br />
+		<p style="text-align:center"><input type="button" onclick="CompruebaUsuario(usuario.value,pwd.value)" style="border-color:gray;color:orange;font-weight:900" value="ENTRAR" /></p>
+		</form>
+	</td></tr>	
+</table>
+</center>
+</body>
+</html>

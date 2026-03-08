@@ -1,0 +1,237 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<title>
+QUINIELAS Y MUS
+</title>
+<link rel="stylesheet" type="text/css" href="tabs.css" />
+<STYLE type="text/css">
+	.container {
+		display: block;
+		position: relative;
+		height: 16px;
+		width: 16px;
+		padding-left: 0px;
+		margin-bottom: 0px;
+		cursor: pointer;
+		font-size: 22px;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+	}
+
+	/* Hide the browser's default checkbox */
+	.container input {
+		position: absolute;
+		opacity: 0;
+	}
+
+	/* Create a custom checkbox */
+	.checkmark {
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 16px;
+		width: 16px;
+		background-color: #eee;
+	}
+
+	/* On mouse-over, add a grey background color */
+	.container:hover input ~ .checkmark {
+		background-color: #ccc;
+	}
+
+	/* When the checkbox is checked, add a dark background */
+	.container input:checked ~ .checkmark {
+		background-color:#777;
+	}
+
+	/* Create the checkmark/indicator (hidden when not checked) */
+	.checkmark:after {
+		content: "";
+		position: absolute;
+		display: none;
+	}
+
+	/* Show the checkmark when checked */
+	.container input:checked ~ .checkmark:after {
+		display: block;
+	}
+
+	/* Style the checkmark/indicator */
+	.container .checkmark:after {
+		left: 4px;
+		top: 0px;
+		width: 5px;
+		height: 10px;
+		border: solid orange;
+		border-width: 0 3px 3px 0;
+		-webkit-transform: rotate(45deg);
+		-ms-transform: rotate(45deg);
+		transform: rotate(45deg);
+	}
+}
+</STYLE>
+<script type="text/javascript">
+function loadXMLDoc(url,cfunc)
+{
+	if (window.XMLHttpRequest)
+ 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
+ 		 xmlhttp=new XMLHttpRequest();
+  	}
+	else
+  	{// code for IE6, IE5
+  		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+ 	 }
+	xmlhttp.onreadystatechange=cfunc;
+	xmlhttp.open("GET",url,true);
+	xmlhttp.send();
+}
+
+function CogeUsuario()
+{
+	var a = window.location.toString();
+	a = a.substring(a.indexOf("=")+1);
+	
+	switch (a)
+	{
+		case "Alfonso":
+			var usu="Alfonso Martínez Sánchez-Sicilia";
+			break;
+		case "Caixero":
+			var usu="Fernando Sánchez Rodríguez";
+			break;
+		case "Fermin":
+			var usu="Fermín García-Mina Cabredo";
+			break;
+		case "Manolin":
+			var usu="Manuel José Ibáñez Macías";
+			break;
+		case "FerminA":
+			var usu="Fermín Aldaz García-Mina";
+			break;
+		case "Michel":
+			var usu="Michel Aldaz García-Mina";
+			break;
+		case "Julio":
+			var usu="Julio García-Mina Cabredo";
+			break;
+		case "Javier":
+			var usu="Javier Marco García-Mina";
+			break;
+		case "FerminG":
+			var usu="Fermín García-Mina Cabredo";
+			break;
+		case "Felipe":
+			var usu="Felipe García-Mina Cabredo";
+			break;
+		case "Antonio":
+			var usu="Antonio Luna García-Mina";
+			break;
+		case "Alvaro":
+			var usu="Álvaro Luna García-Mina";
+			break;
+		default:
+			var usu="Nadie";
+			break;
+	}
+	document.getElementById("Pronostico").innerHTML="Boleto de "+usu;
+	PonTablaPartidos(a);
+}
+
+function CambiaPagina(str)
+{
+	var a = window.location.toString();
+	a = a.substring(a.indexOf("=")+1);
+	
+	location.href = str+".htm?pronosticante="+a;
+}
+
+function PonTablaPartidos(str)
+{
+	loadXMLDoc("PonPartidos.php?q="+str+"&randNum="+new Date().getTime(),function()
+  	{
+		if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    	{
+			document.getElementById("LaTabla").innerHTML=xmlhttp.responseText;
+		}
+  	});
+}
+
+function PonSigno(str1,str2,str3)
+{
+	loadXMLDoc("PonSignos.php?q="+str1+"&p="+str2+"&r="+str3+"&randNum="+new Date().getTime(),function()
+  	{
+  		if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    	{
+			var response = xmlhttp.responseText;
+			var update = new Array();
+			if(response.indexOf('|$|'!= -1))
+			{
+				update = response.split('|$|');
+				if(str3=='loca')
+				{
+					document.getElementById("numdoblesloca").innerHTML=update[0];
+					document.getElementById("avisosloca").innerHTML=update[1];
+					if(update[1]=='Boleto correcto')
+						document.getElementById('avisosloca').style.color='green';
+					else
+						document.getElementById('avisosloca').style.color='red';
+				}
+				else
+				{
+					document.getElementById("numdobles").innerHTML=update[0];
+					document.getElementById("avisos").innerHTML=update[1];
+					if(update[1]=='Boleto correcto')
+						document.getElementById('avisos').style.color='green';
+					else
+						document.getElementById('avisos').style.color='red';
+				}
+			}
+    	}
+  	});
+}
+
+function PonSignoCom(str1,str2,str3)
+{
+	loadXMLDoc("PonSignosCom.php?q="+str1+"&p="+str2+"&r="+str3+"&randNum="+new Date().getTime(),function()
+  	{
+  		if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    	{
+			var response = xmlhttp.responseText;
+			var update = new Array();
+			if(response.indexOf('|$|'!= -1))
+			{
+				update = response.split('|$|');
+				document.getElementById("numdoblesloca").innerHTML=update[0];
+				document.getElementById("avisosloca").innerHTML=update[1];
+				document.getElementById("numtriplesloca").innerHTML=update[2];
+				if(update[1]=='Boleto correcto')
+					document.getElementById('avisosloca').style.color='green';
+				else
+					document.getElementById('avisosloca').style.color='red';
+			}
+    	}
+  	});
+}
+</script>
+</head>
+<body onload="CogeUsuario();">
+<img src="LogoNombre.png" alt="Quinielas y Mus"/>
+<br />
+<ul id="tabs" style="cursor:pointer;">
+	<li><a style="background:black" id="Pronostico"></a>
+		<ul>
+			<li >
+				<br />
+				<div align="left" id="LaTabla"></div>
+			</li>	
+		</ul>
+	</li>
+	<li><a id="TodosLosBoletos" onclick="CambiaPagina(id)">Todos los boletos</a></li>
+	<li><a id="Estadisticas" onclick="CambiaPagina(id)">Estadísticas e Histórico</a></li>
+	<li><a id="Perfil" onclick="CambiaPagina(id)">Perfil</a></li>
+</ul>
+</body>
+</html>

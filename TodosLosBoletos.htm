@@ -1,0 +1,175 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<title>
+QUINIELAS y MUS
+</title>
+<link rel="stylesheet" type="text/css" href="tabs.css" />
+<script type="text/javascript">
+function loadXMLDoc(url,cfunc)
+{
+	if (window.XMLHttpRequest)
+ 	 {// code for IE7+, Firefox, Chrome, Opera, Safari
+ 		 xmlhttp=new XMLHttpRequest();
+  	}
+	else
+  	{// code for IE6, IE5
+  		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+ 	 }
+	xmlhttp.onreadystatechange=cfunc;
+	xmlhttp.open("GET",url,true);
+	xmlhttp.send();
+}
+
+function CogeUsuario()
+{
+	var a = window.location.toString();
+	a = a.substring(a.indexOf("=")+1);
+	
+	switch (a)
+	{
+		case "Alfonso":
+			var usu="Alfonso Martínez Sánchez-Sicilia";
+			break;
+		case "Caixero":
+			var usu="Fernando Sánchez Rodríguez";
+			break;
+		case "Fermin":
+			var usu="Fermín García-Mina Cabredo";
+			break;
+		case "Manolin":
+			var usu="Manuel José Ibañez Macías";
+			break;
+		case "FerminA":
+			var usu="Fermín Aldaz García-Mina";
+			break;
+		case "Michel":
+			var usu="Michel Aldaz García-Mina";
+			break;
+		case "Julio":
+			var usu="Julio García-Mina Cabredo";
+			break;
+		case "Javier":
+			var usu="Javier Marco García-Mina";
+			break;
+		case "FerminG":
+			var usu="Fermín García-Mina Cabredo";
+			break;
+		case "Felipe":
+			var usu="Felipe García-Mina Cabredo";
+			break;
+		case "Antonio":
+			var usu="Antonio Luna García-Mina";
+			break;
+		case "Alvaro":
+			var usu="Álvaro Luna García-Mina";
+			break;
+		default:
+			var usu="Nadie";
+			break;
+	}
+	document.getElementById("Pronostico").innerHTML="Boleto de "+usu;
+	PonTablaTodos("JornadaEnCurso");
+}
+
+function CambiaPagina(str)
+{
+	var a = window.location.toString();
+	a = a.substring(a.indexOf("=")+1);
+	
+	location.href = str+".htm?pronosticante="+a;
+}
+
+function PonTablaTodos(str)
+{
+	var a = window.location.toString();
+	a = a.substring(a.indexOf("=")+1);
+	
+	if(str=="JornadaEnCurso")
+		var jornada=0;
+	else
+	{
+		var jornada=document.getElementById("LaJornadaT").selectedIndex;
+		jornada++;
+	}
+
+	loadXMLDoc("PonerTablaTodosYEscrutinio.php?p="+a+"&q="+jornada+"&r=todos&randNum="+new Date().getTime(),function()
+  	{
+  		if (xmlhttp.readyState==4 && xmlhttp.status==200)
+		{
+			var response = xmlhttp.responseText;
+			var update = new Array();
+			if(response.indexOf('|$|'!= -1))
+			{
+				update = response.split('|$|');
+				document.getElementById('LaJornadaT').selectedIndex=update[0];
+				document.getElementById("TablaTodos").innerHTML=update[1];
+			}
+		}
+  	});
+}
+</script>
+</head>
+<body onload="CogeUsuario();">
+<img src="LogoNombre.png" alt="Quinielas y mus"/>
+<br />
+<ul id="tabs" style="cursor:pointer;">
+	<li><a id="Pronostico" onclick="CambiaPagina(id)"></a></li>
+	<li><a style="background:black">Todos los boletos</a></li>
+		<ul>
+			<li><a style="background:black">Pronósticos</a>
+				<ul>
+					<br />
+					<div style="font-family:arial">Elije la jornada a consultar:
+						<select id="LaJornadaT" onchange="PonTablaTodos(id)">
+							<option>1</option>
+							<option>2</option>
+							<option>3</option>
+							<option>4</option>
+							<option>5</option>
+							<option>6</option>
+							<option>7</option>
+							<option>8</option>
+							<option>9</option>
+							<option>10</option>
+							<option>11</option>
+							<option>12</option>
+							<option>13</option>
+							<option>14</option>
+							<option>15</option>
+							<option>16</option>
+							<option>17</option>
+							<option>18</option>
+							<option>19</option>
+							<option>20</option>
+							<option>21</option>
+							<option>22</option>
+							<option>23</option>
+							<option>24</option>
+							<option>25</option>
+							<option>26</option>
+							<option>27</option>
+							<option>28</option>
+							<option>29</option>
+							<option>30</option>
+							<option>31</option>
+							<option>32</option>
+							<option>33</option>
+							<option>34</option>
+							<option>35</option>
+							<option>36</option>
+							<option>37</option>
+							<option>38</option>
+						</select>
+					</div>
+					<br />
+					<div id="TablaTodos" style="width:100%"></div>
+				</ul>					
+			</li>
+			<li><a id="Escrutinio" onclick="CambiaPagina(id)">Escrutinio</a></li>
+		</ul>
+	<li><a id="Estadisticas" onclick="CambiaPagina(id)">Estadísticas e Histórico</a></li>
+	<li><a id="Perfil" onclick="CambiaPagina(id)">Perfil</a></li>
+</ul>
+</body>
+</html>
