@@ -905,37 +905,7 @@ else
 			}
 		}
 	}			
-	
-	/*$sel = $con->query("SELECT * FROM Pronosticoscom WHERE Jornada = ".$jornada);
-	$signocom=$sel->fetch_assoc();
-	$nombrelower=strtolower($signocom['Usuario']);
-	switch ($nombrelower)
-	{
-		case 'fermina':
-			$colorfermina="darkmagenta";
-			break;
-		case 'michel':
-			$colormichel="darkmagenta";
-			break;
-		case 'julio':
-			$colorjulio="darkmagenta";
-			break;
-		case 'javier':
-			$colorjavier="darkmagenta";
-			break;
-		case 'ferming':
-			$colorferming="darkmagenta";
-			break;
-		case 'felipe':
-			$colorfelipe="darkmagenta";
-			break;
-		case 'antonio':
-			$colorantonio="darkmagenta";
-			break;
-		case 'alvaro':
-			$coloralvaro="darkmagenta";
-			break;
-	}*/
+
 	$restodediv=$jornada % 8;
 	switch ($restodediv)
 	{
@@ -1251,8 +1221,8 @@ else
 				<td colspan="6" style="color:blue;font-weight:bold">'.$trinque[6].'</td>
 				<td colspan="6" style="color:blue;font-weight:bold">'.$trinque[7].'</td></tr></table><br />';
 		echo $str;
-		
-		//Tabla comunitaria
+/*		
+		//Tabla comunitaria versión de 6 dobles sin reducir
 			//Arrays de triples
 		$Singosdestriples1=array('X','2','1','X','2','1','1','1',
 							     'X','X','X','2','2','2','1','1',
@@ -1287,14 +1257,6 @@ else
 		echo $str;
 		$str = '<tr style="background:gray;color:blue;"><th colspan="73" style="padding-right:10px;padding-left:10px">AUTOR: ';
 		echo $str;
-		/*if($procom['Usuario']=='fermina') $str='Fermín Aldaz</th></tr>';
-		else if($procom['Usuario']=='michel') $str='Michel Aldaz</th></tr>';
-		else if($procom['Usuario']=='julio') $str='Julio García-Mina</th></tr>';
-		else if($procom['Usuario']=='javier') $str='Javier Marco</th></tr>';
-		else if($procom['Usuario']=='ferming') $str='Fermín García-Mina</th></tr>';
-		else if($procom['Usuario']=='felipe') $str='Felipe García-Mina</th></tr>';
-		else if($procom['Usuario']=='antonio') $str='Antonio Luna</th></tr>';
-		else if($procom['Usuario']=='alvaro') $str='Álvaro Luna</th></tr>';*/
 		if($restodediv==7) $str='Fermín Aldaz</th></tr>';
 		else if($restodediv==0) $str='Michel Aldaz</th></tr>';
 		else if($restodediv==1) $str='Julio García-Mina</th></tr>';
@@ -1590,6 +1552,289 @@ else
 		$str = '<tr><td colspan="9" style="background:gray;color:blue;font-weight:bold">PREMIOS: (EUROS)</td>
 				<td colspan="64" style="color:blue;font-weight:bold">'.$premiosdesarrollo.'</td></tr></table><br />';
 		echo $str;
+*/
+        //TABLA COMUNITARIA versión de 7 dobles reducidos
+		$Singosdesdobles=array(array(0,0,1,1,1,1,0,0,1,1,0,0,1,1,0,0),
+							   array(0,0,1,1,1,1,0,0,0,0,1,1,0,0,1,1),
+							   array(0,0,1,1,0,0,1,1,1,1,0,0,0,0,1,1),
+							   array(0,0,1,1,0,0,1,1,0,0,1,1,1,1,0,0),
+							   array(0,1,0,1,1,0,1,0,0,1,0,1,0,1,0,1),
+							   array(0,1,0,1,0,1,0,1,1,0,1,0,0,1,0,1),
+							   array(0,1,0,1,0,1,0,1,0,1,0,1,1,0,1,0));
+
+		$sel = $con->query("SELECT * FROM Pronosticoscom WHERE Jornada = ".$jornada);
+		$pronostico=$sel->fetch_assoc();
+			
+        //Cambio de checkeds por exises
+        for($j=1;$j<15;$j++)
+        {
+            switch($j)
+            {
+                case 10:
+                    $a='A';
+                    break;
+                case 11:
+                    $a='B';
+                    break;
+                case 12:
+                    $a='C';
+                    break;
+                case 13:
+                    $a='D';
+                    break;
+                case 14:
+                    $a='E';
+                    break;
+                default:
+                    $a=$j;
+                    break;
+            }
+            if($pronostico["P".$a."1C"]=='checked')
+                $pronostico["P".$a."1C"]='X';
+            if($pronostico["P".$a."XC"]=='checked')
+                $pronostico["P".$a."XC"]='X';
+            if($pronostico["P".$a."2C"]=='checked')
+                $pronostico["P".$a."2C"]='X';
+        }
+			
+        $str = '<table style="font-family:arial" border="1">
+                <tr style="background:gray;color:orange;"><th colspan="25">LA COMUNITARIA</th></tr>
+                <tr style="background:gray;color:orange;"><th rowspan="2" style="padding-right:10px;padding-left:10px">Nº</th>
+                <th rowspan="2" style="padding-right:150px;padding-left:150px">PARTIDO</th><th rowspan="18" style="background:gray;padding-left:2px"></th>
+                <th rowspan="2">Escr.</th><th rowspan="17" style="background:gray;padding-left:2px"></th>
+                <th colspan="3">Pronos.</th><th rowspan="18" style="background:gray;padding-left:2px"></th>
+                <th colspan="16">Desarrollo</th></tr>
+                <tr style="background:gray;color:orange;"><th>1</th><th>X</th><th>2</th>
+                <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>';
+        echo $str;
+			
+        //Partidos normales
+        $numerodedoble=0;
+        $aciertos=0;
+        for($j=0;$j<16;$j++)
+            $aciertosdesarrollo[$j]=0;
+        for($j=1;$j<15;$j++)
+        {
+            switch ($j)
+            {
+                case 10:
+                    $a='A';
+                    break;
+                case 11:
+                    $a='B';
+                    break;
+                case 12:
+                    $a='C';
+                    break;
+                case 13:
+                    $a='D';
+                    break;
+                case 14:
+                    $a='E';
+                    break;
+                default:
+                    $a=$j;
+                    break;
+            }
+            $coloracierto[0]='white';
+            $coloracierto[1]='white';
+            $coloracierto[2]='white';
+            if($resultado["R".$j]=='1' && $pronostico["P".$a."1C"]=='X')
+            {
+                $coloracierto[0]='green';
+                $aciertos++;
+            }
+            if($resultado["R".$j]=='X' && $pronostico["P".$a."XC"]=='X')
+            {
+                $coloracierto[1]='green';
+                $aciertos++;
+            }
+            if($resultado["R".$j]=='2' && $pronostico["P".$a."2C"]=='X')
+            {
+                $coloracierto[2]='green';
+                $aciertos++;
+            }
+            
+            $casillasmarcadas=0;
+            $marcadosencillo='0';
+            $marcadodoble[0]='0';
+            $marcadodoble[1]='0';
+            if($pronostico["P".$a."1C"]=='X')
+            {
+                $casillasmarcadas++;
+                $marcadosencillo='1';
+                $marcadodoble[0]='1';
+            }
+            if($pronostico["P".$a."XC"]=='X')
+            {
+                $casillasmarcadas++;
+                $marcadosencillo='X';
+                if($marcadodoble[0]=='1')
+                    $marcadodoble[1]='X';
+                else
+                    $marcadodoble[0]='X';
+            }
+            if($pronostico["P".$a."2C"]=='X')
+            {
+                $casillasmarcadas++;
+                $marcadosencillo='2';
+                $marcadodoble[1]='2';
+            }
+            if($casillasmarcadas==2)
+            {
+                for($k=0;$k<16;$k++)
+                {
+                    $ColorCeldaDesarrollo[$k]='white';
+                    $signodesarrollo[$k]=$marcadodoble[$Singosdesdobles[$numerodedoble][$k]];
+                    if($resultado["R".$j]==$signodesarrollo[$k])
+                    {
+                        $ColorCeldaDesarrollo[$k]='green';
+                        $aciertosdesarrollo[$k]++;
+                    }
+                }
+                $numerodedoble++;
+            }
+            else
+            {
+                for($k=0;$k<16;$k++)
+                {
+                    $signodesarrollo[$k]=$marcadosencillo;
+                    $ColorCeldaDesarrollo[$k]='white';
+                }
+                if($resultado["R".$j]==$marcadosencillo)
+                {
+                    for($k=0;$k<16;$k++)
+                    {
+                        $ColorCeldaDesarrollo[$k]='green';
+                        $aciertosdesarrollo[$k]++;
+                    }
+                }
+            }
+
+            $str = '<tr><td style="background:gray;color:orange;font-weight:bold">'.$j.'</td>
+                    <td style="background:gray;color:orange;font-weight:bold">'.$partido["P".$j].'</td>
+                    <td style="color:gray">'.$resultado["R".$j].'</td>
+                    <td style="background:'.$coloracierto[0].'">'.$pronostico["P".$a."1C"].'</td>
+                    <td style="background:'.$coloracierto[1].'">'.$pronostico["P".$a."XC"].'</td>
+                    <td style="background:'.$coloracierto[2].'">'.$pronostico["P".$a."2C"].'</td>';
+            //echo utf8_encode($str);
+            echo ($str);
+            for($k=0;$k<16;$k++)
+                echo '<td style="background:'.$ColorCeldaDesarrollo[$k].'">'.$signodesarrollo[$k].'</td>';
+            echo '</tr>';
+        }
+        
+        //Pleno al 15
+        $coloraciertop15[0]='white';
+        $coloraciertop15[1]='white';
+        $coloraciertop15[2]='white';
+        switch($pronostico["PF1C"])
+        {
+            case 'M':
+                $golesp1=3;
+                break;
+            case '2':
+                $golesp1=2;
+                break;
+            case '1':
+                $golesp1=1;
+                break;
+            case '0':
+                $golesp1=0;
+                break;
+            default:
+                $golesp1=-1;
+                break;
+        }
+        switch($pronostico["PF2C"])
+        {
+            case 'M':
+                $golesp2=3;
+                break;
+            case '2':
+                $golesp2=2;
+                break;
+            case '1':
+                $golesp2=1;
+                break;
+            case '0':
+                $golesp2=0;
+                break;
+            default:
+                $golesp2=-1;
+                break;
+        }
+        if($resultado["R15_1"]=='M')
+            $golesr1=3;
+        else
+            $golesr1=$resultado["R15_1"];
+        if($resultado["R15_2"]=='M')
+            $golesr2=3;
+        else
+            $golesr2=$resultado["R15_2"];
+        
+        if(($golesr1<$golesr2 && $golesp1<$golesp2) || ($golesr1==$golesr2 && $golesp1==$golesp2) || ($golesr1>$golesr2 && $golesp1>$golesp2)) 
+        {
+            $aciertos++;
+            $coloraciertop15[1]='green';
+            
+            if($resultado["R15_1"]==$pronostico["PF1C"] || ($pronostico["PF1C"]=='M' && $golesr1>2))
+            {
+                $aciertos++;
+                $coloraciertop15[0]='green';
+            }
+            if($resultado["R15_2"]==$pronostico["PF2C"] || ($pronostico["PF2C"]=='M' && $golesr2>2))
+            {
+                $aciertos++;
+                $coloraciertop15[2]='green';
+            }
+        }
+        $plenoalquince=$resultado["R15_1"].'-'.$resultado["R15_2"];
+        $premio=0;
+        for($j=0;$j<16;$j++)
+        {
+            if($aciertosdesarrollo[$j]==14)
+            {
+                $premio+=$resultado["P2"];
+                if($golesr1==$golesp1 && $golesr2==$golesp2)
+                {
+                    $plenoalquince="¡¡¡ HAS TRINCAO UN PLENO AL QUINCE MAJETE !!!";
+                    $premio+=$resultado["P1"];
+                }
+            }
+            else if($aciertosdesarrollo[$j]==13)
+                $premio+=$resultado["P3"];
+            else if($aciertosdesarrollo[$j]==12)
+                $premio+=$resultado["P4"];
+            else if($aciertosdesarrollo[$j]==11)
+                $premio+=$resultado["P5"];
+            else if($aciertosdesarrollo[$j]==10)
+                $premio+=$resultado["P6"];
+        }	
+
+        $str = '<tr><td style="background:gray;color:red;font-weight:bold">P-15</td>
+                <td style="background:gray;color:red;font-weight:bold">'.$partido["P15"].'</td>
+                <td style="color:red">'.$resultado["R15_1"]."-".$resultado["R15_2"].'</td>
+                <td style="color:red;background:'.$coloraciertop15[0].'">'.$pronostico["PF1C"].'</td>
+                <td style="color:red;background:'.$coloraciertop15[1].'">-</td>
+                <td style="color:red;background:'.$coloraciertop15[2].'">'.$pronostico["PF2C"].'</td>
+                <td colspan="16" style="color:red">'.$plenoalquince.'</td></tr>';
+        echo ($str);
+        //echo utf8_encode($str);
+        
+        //Fila aciertos
+        $str = '<tr><td style="background:gray;color:green;font-weight:bold" colspan="2">ACIERTOS:</td><td style="color:green;font-weight:bold" colspan="5">'.$aciertos.'</td>';
+        echo ($str);
+        for($j=0;$j<16;$j++)
+            echo '<td style="color:green;font-weight:bold" >'.$aciertosdesarrollo[$j].'</td>';
+        echo '</tr>';
+        
+        //Fila premios
+        $premio=number_format ( $premio , $decimals = 2 , $dec_point = ',' , $thousands_sep = '.' );
+        $str = '<tr><td style="background:gray;color:blue;font-weight:bold" colspan="2">PREMIO:</td>
+                <td style="color:blue;font-weight:bold" colspan="23">'.$premio.'.-Euros</td></tr>';
+        echo $str;
+        echo '</table><br />';
 	}
 }
 ?>

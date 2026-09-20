@@ -148,7 +148,7 @@ function PonCasillas($signo, $nombre, $quecasillas, $ano, $jornada)
 		}
 		else
 		{
-			$loserrores=Errores($signo, "C", 6, 2, $ano, $jornada);
+			$loserrores=Errores($signo, "C", 7, 2, $ano, $jornada);
 			$cartelito="Avisos COMUN:";
 			if($ano<2018 || ($ano==2018 && $jornada<=6))
 				$desplazamiento="-59px";
@@ -188,7 +188,7 @@ function RefrescaCasillas($signo, $nombre, $quecasillas, $ano, $jornada)
 		//Tabla de triples
 		$lostriples=NumeroMultiples($signo, 3, "C");
 		//Tabla de avisos
-		$loserrores=Errores($signo, "C", 6, 2, $ano, $jornada);
+		$loserrores=Errores($signo, "C", 7, 2, $ano, $jornada);
 
 		echo $losdobles.'|$|'.$loserrores.'|$|'.$lostriples;
 	}

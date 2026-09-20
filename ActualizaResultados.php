@@ -91,12 +91,22 @@ $Singosdestriples2=array('X','X','2','2','2','1','X','2',
 						 'X','X','X','2','1','X','2','1');
 //Arrays de dobles
 	//Quiniela Mina
-$Singosdesdobles=array(array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,1,1,1,0,0,1,1,1,1,1,1,1,1,0,1,0,0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1),
+
+//VERSIÓN 6 DOBLES SIN REDUCIR
+/*$Singosdesdobles=array(array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,1,1,1,0,0,1,1,1,1,1,1,1,1,0,1,0,0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1),
 					   array(0,1,1,1,0,0,1,1,0,0,1,1,1,0,0,0,0,1,1,1,1,1,0,0,0,0,0,1,0,0,0,1,1,1,0,1,1,0,0,0,0,0,0,0,1,1,1,0,0,0,0,1,1,1,1,1,0,0,0,1,1,1,1,1),
 					   array(0,0,0,1,0,0,1,0,1,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,1,0,0,1,1,1,0,1,1,0,0,1,0,0,1,0,1,1,1,1,0,0,0,1,1,1,1,1,1,0,0,0,1,1,1,1,1,0,1,1),
 					   array(0,0,0,0,1,0,0,1,1,1,1,1,0,0,1,1,0,1,0,1,1,0,1,1,0,0,0,0,0,0,0,0,0,1,1,1,0,1,1,0,0,1,1,1,0,1,1,0,1,1,0,1,1,0,0,1,0,0,1,0,1,1,1,0),
 					   array(1,0,1,0,0,0,1,0,0,1,1,1,0,1,1,0,0,0,1,0,1,1,0,1,1,1,1,1,0,1,0,1,0,0,1,1,1,0,1,0,0,0,0,1,1,1,0,1,1,0,1,1,0,0,0,1,0,0,1,0,0,1,0,0),
-					   array(0,0,0,0,0,1,1,1,0,0,1,0,1,1,1,0,0,0,0,0,0,1,1,1,1,0,1,0,0,0,0,1,1,0,0,1,1,1,0,1,1,1,0,1,0,0,1,0,0,1,1,0,1,0,1,1,0,1,1,1,1,1,0,0));
+					   array(0,0,0,0,0,1,1,1,0,0,1,0,1,1,1,0,0,0,0,0,0,1,1,1,1,0,1,0,0,0,0,1,1,0,0,1,1,1,0,1,1,1,0,1,0,0,1,0,0,1,1,0,1,0,1,1,0,1,1,1,1,1,0,0));*/
+//VERSIÓN 7 DOBLES REDUCIDOS
+$Singosdesdobles=array(array(0,0,1,1,1,1,0,0,1,1,0,0,1,1,0,0),
+                       array(0,0,1,1,1,1,0,0,0,0,1,1,0,0,1,1),
+                       array(0,0,1,1,0,0,1,1,1,1,0,0,0,0,1,1),
+                       array(0,0,1,1,0,0,1,1,0,0,1,1,1,1,0,0),
+                       array(0,1,0,1,1,0,1,0,0,1,0,1,0,1,0,1),
+                       array(0,1,0,1,0,1,0,1,1,0,1,0,0,1,0,1),
+                       array(0,1,0,1,0,1,0,1,0,1,0,1,1,0,1,0));
 	//Quiniela Manolín
 $SingosdesdoblesManolin=array(array(0,0,1,1,1,1,0,0,1,1,0,0,1,1,0,0),
 							  array(0,0,1,1,1,1,0,0,0,0,1,1,0,0,1,1),
@@ -557,7 +567,8 @@ for($i=0;$i<13;$i++)
 		//La comunitaria
 		$sel=$con->query("SELECT * FROM Pronosticoscom WHERE Jornada = ".$jornada);
 		$procom=$sel->fetch_assoc();
-		for($j=0;$j<64;$j++)
+		//for($j=0;$j<64;$j++)
+        for($j=0;$j<16;$j++)
 			$aciertosdesarrollo[$j]=0;
 		//Los partidos normales
 		$numerodetriple=0;
@@ -577,7 +588,8 @@ for($i=0;$i<13;$i++)
 			else
 				$a=$j;
 
-			for($k=0;$k<64;$k++)
+			//for($k=0;$k<64;$k++) //Versión 6 dobles sin reducir
+            for($k=0;$k<16;$k++)    //Versión 7 dobles reducidos
 				$signodesarrollo[$k]="";
 			$casillasmarcadas=0;
 			$marcadosencillo='0';
@@ -604,7 +616,30 @@ for($i=0;$i<13;$i++)
 				$marcadosencillo='2';
 				$marcadodoble[1]='2';
 			}
-			if($casillasmarcadas==3)
+            
+            //Versión 7 dobles reducidos
+            if($casillasmarcadas==2 && $numerodedoble<7)
+			{
+				for($k=0;$k<16;$k++)
+				{
+					$signodesarrollo[$k]=$marcadodoble[$Singosdesdobles[$numerodedoble][$k]];
+					if($resultado["R".$j]==$signodesarrollo[$k])
+						$aciertosdesarrollo[$k]++;
+				}
+				$numerodedoble++;
+			}
+			else
+			{
+				if($resultado["R".$j]==$marcadosencillo)
+				{
+					for($k=0;$k<16;$k++)
+						$aciertosdesarrollo[$k]++;
+				}
+			}
+			//Hasta aquí versión 7 dobles reducidos
+            
+            //Versión 6 dobles sin reducir
+/*            if($casillasmarcadas==3)
 			{
 				$numerodetriple++;
 				for($k=0;$k<64;$k++)
@@ -617,7 +652,7 @@ for($i=0;$i<13;$i++)
 						$aciertosdesarrollo[$k]++;
 				}
 			}
-			else if($casillasmarcadas==2)
+			if($casillasmarcadas==2)
 			{
 				for($k=0;$k<64;$k++)
 				{
@@ -636,12 +671,13 @@ for($i=0;$i<13;$i++)
 					for($k=0;$k<64;$k++)
 						$aciertosdesarrollo[$k]++;
 				}
-			}
+			}*/
 		}
 		//El pleno al 15
 		if($resultado["R15_1"]==$procom["PF1C"] && $resultado["R15_2"]==$procom["PF2C"])
 		{
-			for($j=0;$j<64;$j++)
+			//for($j=0;$j<64;$j++)    //Versión 6 dobles sin reducir
+            for($k=0;$k<16;$k++)    //Versión 7 dobles reducidos
 			{
 				if($aciertosdesarrollo[$j]==14)
 					$aciertosdesarrollo[$j]=15;
