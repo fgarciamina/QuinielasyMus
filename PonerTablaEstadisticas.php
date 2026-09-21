@@ -391,7 +391,8 @@ for ($i=0;$i<$n;$i++)
 	$puesto[$i][3]=$totalpastalocasv[$i]+$totalpastalocapv[$i];
 	$puesto[$i][4]=$totalpastaordinsv[$i]+$totalpastalocasv[$i]+$totalpastaordinpv[$i]+$totalpastalocapv[$i];
 	$puesto[$i][5]=$totalcomun[$i]+$totalcomunsv[$i];
-	$puesto[$i][6]=$totalaciertos[$i]+$totalsv[$i];
+	//$puesto[$i][6]=$totalaciertos[$i]+$totalsv[$i]; //Quiniela Mina versión de sí suman los puntos de la comunitaria.
+	$puesto[$i][6]=$puesto[$i][1]; //Quiniela Mina versión de no suman los puntos de la comunitaria.
 	$puesto[$i][7]=$totaldispuesto[$i];
 
 	//Burbuja de puestos
@@ -495,7 +496,7 @@ if($n==4)
 	$str='<tr style="background:gray;color:orange;"><th>Ordin.</th><th>Por Loca</th><th>SUMA</th></tr>';
 	echo ($str);
 }
-else
+/*else	//Quiniela Mina versión de sí suman los puntos de la comunitaria.
 {
 	echo '<table style="font-family:arial" border="1">';
 	$str = '<tr style="background:gray;color:orange;"><th colspan="8">Campeonato absoluto</th></tr>';
@@ -504,9 +505,19 @@ else
 	echo ($str);
 	$str='<tr style="background:gray;color:orange;"><th>Ordin.</th><th>Por Común</th><th>SUMA</th></tr>';
 	echo ($str);
+}*/
+else	//Quiniela Mina versión de no suman los puntos de la comunitaria.
+{
+	echo '<table style="font-family:arial" border="1">';
+	$str = '<tr style="background:gray;color:orange;"><th colspan="6">Campeonato absoluto</th></tr>';
+	echo ($str);
+	$str = '<tr style="background:gray;color:orange;"><th rowspan="2">Puesto</th><th rowspan="2">Participante</th><th rowspan="2">Puntos</th><th colspan="3">Trinque</th>';
+	echo ($str);
+	$str='<tr style="background:gray;color:orange;"><th>Ordin.</th><th>Por Común</th><th>SUMA</th></tr>';
+	echo ($str);
 }
 
-if($n==8)
+/*if($n==8)	//Quiniela Mina versión de sí suman los puntos de la comunitaria.
 {
 	$str = '<tr><td style="background:gray;color:blue;font-weight:bold">Primer Clasificado</td><td style="color:blue">'.$puesto[0][0].'</td><td style="color:blue">'.$puesto[0][1].'</td><td style="color:blue">'.$puesto[0][5].'</td><td style="color:blue">'.$puesto[0][6].'</td><td style="color:blue">'.$puesto[0][2].'</td><td style="color:blue">'.$puesto[0][3].'</td><td style="color:blue">'.$puesto[0][4].'</td></tr>
 			<tr><td style="background:gray;color:orange;font-weight:bold">Segundo Clasificado</td><td>'.$puesto[1][0].'</td><td>'.$puesto[1][1].'</td><td>'.$puesto[1][5].'</td><td>'.$puesto[1][6].'</td><td>'.$puesto[1][2].'</td><td>'.$puesto[1][3].'</td><td>'.$puesto[1][4].'</td></tr>
@@ -516,6 +527,18 @@ if($n==8)
 			<tr><td style="background:gray;color:orange;font-weight:bold">Sexto Clasificado</td><td>'.$puesto[5][0].'</td><td>'.$puesto[5][1].'</td><td>'.$puesto[5][5].'</td><td>'.$puesto[5][6].'</td><td>'.$puesto[5][2].'</td><td>'.$puesto[5][3].'</td><td>'.$puesto[5][4].'</td></tr>
 			<tr><td style="background:gray;color:orange;font-weight:bold">Séptimo Clasificado</td><td>'.$puesto[6][0].'</td><td>'.$puesto[6][1].'</td><td>'.$puesto[6][5].'</td><td>'.$puesto[6][6].'</td><td>'.$puesto[6][2].'</td><td>'.$puesto[6][3].'</td><td>'.$puesto[6][4].'</td></tr>
 			<tr><td style="background:gray;color:red;font-weight:bold">Farolillo Rojo</td><td style="color:red">'.$puesto[7][0].'</td><td style="color:red">'.$puesto[7][1].'</td><td style="color:red">'.$puesto[7][5].'</td><td style="color:red">'.$puesto[7][6].'</td><td style="color:red">'.$puesto[7][2].'</td><td style="color:red">'.$puesto[7][3].'</td><td style="color:red">'.$puesto[7][4].'</td></tr>';
+	echo ($str);
+}*/
+if($n==8)	//Quiniela Mina versión de no suman los puntos de la comunitaria.
+{
+	$str = '<tr><td style="background:gray;color:blue;font-weight:bold">Primer Clasificado</td><td style="color:blue">'.$puesto[0][0].'</td><td style="color:blue">'.$puesto[0][1].'</td><td style="color:blue">'.$puesto[0][2].'</td><td style="color:blue">'.$puesto[0][3].'</td><td style="color:blue">'.$puesto[0][4].'</td></tr>
+			<tr><td style="background:gray;color:orange;font-weight:bold">Segundo Clasificado</td><td>'.$puesto[1][0].'</td><td>'.$puesto[1][1].'</td><td>'.$puesto[1][2].'</td><td>'.$puesto[1][3].'</td><td>'.$puesto[1][4].'</td></tr>
+			<tr><td style="background:gray;color:orange;font-weight:bold">Tercer Clasificado</td><td>'.$puesto[2][0].'</td><td>'.$puesto[2][1].'</td><td>'.$puesto[2][2].'</td><td>'.$puesto[2][3].'</td><td>'.$puesto[2][4].'</td></tr>
+			<tr><td style="background:gray;color:orange;font-weight:bold">Cuarto Clasificado</td><td>'.$puesto[3][0].'</td><td>'.$puesto[3][1].'</td><td>'.$puesto[3][2].'</td><td>'.$puesto[3][3].'</td><td>'.$puesto[3][4].'</td></tr>
+			<tr><td style="background:gray;color:orange;font-weight:bold">Quinto Clasificado</td><td>'.$puesto[4][0].'</td><td>'.$puesto[4][1].'</td><td>'.$puesto[4][2].'</td><td>'.$puesto[4][3].'</td><td>'.$puesto[4][4].'</td></tr>
+			<tr><td style="background:gray;color:orange;font-weight:bold">Sexto Clasificado</td><td>'.$puesto[5][0].'</td><td>'.$puesto[5][1].'</td><td>'.$puesto[5][2].'</td><td>'.$puesto[5][3].'</td><td>'.$puesto[5][4].'</td></tr>
+			<tr><td style="background:gray;color:orange;font-weight:bold">Séptimo Clasificado</td><td>'.$puesto[6][0].'</td><td>'.$puesto[6][1].'</td><td>'.$puesto[6][2].'</td><td>'.$puesto[6][3].'</td><td>'.$puesto[6][4].'</td></tr>
+			<tr><td style="background:gray;color:red;font-weight:bold">Farolillo Rojo</td><td style="color:red">'.$puesto[7][0].'</td><td style="color:red">'.$puesto[7][1].'</td><td style="color:red">'.$puesto[7][2].'</td><td style="color:red">'.$puesto[7][3].'</td><td style="color:red">'.$puesto[7][4].'</td></tr>';
 	echo ($str);
 }
 else
